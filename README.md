@@ -17,17 +17,15 @@ Replace this paragraph with your own summary of what your version does.
 
 ## How The System Works
 
-Explain your design in plain language.
+Real-world recommendations work by finding patterns in a user's own behavior and then accumulating a bunch of data from millions of users to then find universal patterns amongst them. This allows the system to give off recommendations that can be very similar based off of just features like genre or energy, while also allowing for a little bit of mix up here and there from the data of other users.
 
-Some prompts to answer:
+Since this system will be purely off content-based filtering, it will prioritize key features such as genre, energy, mood, valence and acousticness.
 
-- What features does each `Song` use in your system
-  - For example: genre, mood, energy, tempo
-- What information does your `UserProfile` store
-- How does your `Recommender` compute a score for each song
-- How do you choose which songs to recommend
+Song objects will have all of these attributes.
 
-You can include a simple diagram or bullet list if helpful.
+UserProfile objects will have a favorite genre and mood, a target energy, whether or not they like acoustic songs, and target valence which indicates how positive/happy they want songs to feel.
+
+A score will then be calculated based off how close all the features are to the user's preference with more weight being on genre and energy.
 
 ---
 
