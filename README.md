@@ -27,6 +27,18 @@ UserProfile objects will have a favorite genre and mood, a target energy, whethe
 
 A score will then be calculated based off how close all the features are to the user's preference with more weight being on genre and energy.
 
+The score works like this:
+score = (
+    0.30 * genre_sim
+    + 0.15 * mood_sim
+    + 0.35 * energy_sim
+    + 0.10 * valence_sim
+    + 0.10 * acoustic_sim
+)
+
+The genre and mood similarities will either be 1 or 0 depending if it is one of the user's favorties. Then an energy, valence, and acoustic similarity score will be calculated by subtracting the two scores.
+
+If songs do not exactly match the genre, the max similarity a song can be is 0.7, but this can still recommended to a user so I think the scoring is pretty fair since only two categories are all or nothing, while the rest is truly calculated based off similarity.
 ---
 
 ## Getting Started
