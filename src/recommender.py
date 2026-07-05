@@ -70,9 +70,41 @@ def score_song(user_prefs: Dict, song: Dict) -> Tuple[float, List[str]]:
     Scores a single song against user preferences.
     Required by recommend_songs() and src/main.py
     """
-    # TODO: Implement scoring logic using your Algorithm Recipe from Phase 2.
-    # Expected return format: (score, reasons)
-    return []
+    genre_sim = 1.0 if song["genre"] in user_prefs["genre"] else 0.0
+    mood_sim = 1.0 if song["mood"] in user_prefs["mood"] else 0.0
+
+    target_energy = user_prefs["energy"]
+    target_valence = user_prefs.get("valence", 0.5)
+    target_acousticness = 1.0 if user_prefs.get("likes_acoustic", False) else 0.0
+
+    energy_sim = 1 - abs(target_energy - song["energy"])
+    valence_sim = 1 - abs(target_valence - song["valence"])
+    acoustic_sim = 1 - abs(target_acousticness - song["acousticness"])
+
+    score = (
+        0.30 * genre_sim
+        + 0.15 * mood_sim
+        + 0.35 * energy_sim
+        + 0.10 * valence_sim
+        + 0.10 * acoustic_sim
+    )
+
+    reasons = []
+    if genre_sim == 1.0:
+        reasons.append(f"Matches favorite genre '{song['genre']}'")
+    else:
+        reasons.append(f"Different genre ('{song['genre']}' vs favorites {user_prefs['genre']})")
+
+    if mood_sim == 1.0:
+        reasons.append(f"Matches favorite mood '{song['mood']}'")
+    else:
+        reasons.append(f"Different mood ('{song['mood']}' vs favorites {user_prefs['mood']})")
+
+    reasons.append(f"Energy similarity {energy_sim:.2f} (song {song['energy']}, target {target_energy})")
+    reasons.append(f"Valence similarity {valence_sim:.2f} (song {song['valence']}, target {target_valence})")
+    reasons.append(f"Acousticness similarity {acoustic_sim:.2f} (song {song['acousticness']}, target {target_acousticness})")
+
+    return score, reasons
 
 def recommend_songs(user_prefs: Dict, songs: List[Dict], k: int = 5) -> List[Tuple[Dict, float, str]]:
     """

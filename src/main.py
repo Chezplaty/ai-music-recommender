@@ -17,7 +17,7 @@ def main() -> None:
     print(f"Loaded {len(songs)} songs from data/songs.csv")
 
     # Starter example profile
-    user_prefs = {"genre": "lofi", "mood": "chill", "energy": 0.45, "likes_acoustic": True}
+    user_prefs = {"genre": ["lofi"], "mood": ["chill"], "energy": 0.45, "likes_acoustic": True}
 
     recommendations = recommend_songs(user_prefs, songs, k=5)
 
