@@ -3,7 +3,8 @@
 ## 1. Model Name  
 
 Give your model a short, descriptive name.  
-Example: **VibeFinder 1.0**  
+
+MusicSync
 
 ---
 
@@ -63,27 +64,27 @@ Prompts:
 
 Where the system struggles or behaves unfairly. 
 
-Prompts:  
+The amount of data available is a big limiter because certain profiles will just not have any songs that suits them so the songs recommended are not that close to what they would like.
 
-- Features it does not consider  
-- Genres or moods that are underrepresented  
-- Cases where the system overfits to one preference  
-- Ways the scoring might unintentionally favor some users  
+There is no way to gauge the similarities between genres and moods so if the song genre/mood is not in the user's favorites, the chances it is recommended decreases greatly.
 
+There is no personalization or feedback loop that allows the recommender to learn from what the user actually likes to listen to.
 ---
 
 ## 7. Evaluation  
 
 How you checked whether the recommender behaved as expected. 
 
-Prompts:  
+I tested three user profiles:
+- chill lofi user
+- sad metal/rock listener
+- high-enery upbeat listener
 
-- Which user profiles you tested  
-- What you looked for in the recommendations  
-- What surprised you  
-- Any simple tests or comparisons you ran  
+I looked for songs whose song titles made sense with the genres and scores that were relatively close to .80 or .90
 
-No need for numeric metrics unless you created some.
+I was not really surprised with the results as there was a very limited amount of data so some users got songs that would not suit them well.
+
+I believe that the scoring system has flaws trying to match genre and mood because those are all or nothing while the other features at least score based on how close the numbers are together. There is simply no way to tell if two or more genres/mood are closely related in this recommender.
 
 ---
 

@@ -80,14 +80,41 @@ You can add more tests in `tests/test_recommender.py`.
 
 Paste a sample of your recommender's output here as a text block so a reader can see what it produces:
 
-```
-# e.g.:
-# User profile: genre=indie, mood=chill, energy=low
-# Recommendations:
-#   1. ...
-#   2. ...
-#   3. ...
-```
+=== Chill lofi listener ===
+
+Top recommendations:
+
+Midnight Coding - Score: 0.95
+-----------------------------
+Because: Matches favorite genre 'lofi'
+Matches favorite mood 'chill'
+Energy similarity 0.97 (song 0.42, target 0.45)
+Valence similarity 0.94 (song 0.56, target 0.5)
+Acousticness similarity 0.71 (song 0.71, target 1.0)
+
+Library Rain - Score: 0.94
+--------------------------
+Because: Matches favorite genre 'lofi'
+Matches favorite mood 'chill'
+Energy similarity 0.90 (song 0.35, target 0.45)
+Valence similarity 0.90 (song 0.6, target 0.5)
+Acousticness similarity 0.86 (song 0.86, target 1.0)
+
+Focus Flow - Score: 0.80
+------------------------
+Because: Matches favorite genre 'lofi'
+Different mood ('focused' vs favorites ['chill'])
+Energy similarity 0.95 (song 0.4, target 0.45)
+Valence similarity 0.91 (song 0.59, target 0.5)
+Acousticness similarity 0.78 (song 0.78, target 1.0)
+
+Spacewalk Thoughts - Score: 0.62
+--------------------------------
+Because: Different genre ('ambient' vs favorites ['lofi'])
+Matches favorite mood 'chill'
+Energy similarity 0.83 (song 0.28, target 0.45)
+Valence similarity 0.85 (song 0.65, target 0.5)
+Acousticness similarity 0.92 (song 0.92, target 1.0)
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->
 
