@@ -9,7 +9,48 @@ You will implement the functions in recommender.py:
 - recommend_songs
 """
 
-from recommender import load_songs, recommend_songs
+import logging
+import sys
+
+from recommender import load_songs, recommend_songs, load_catalog, Recommender
+
+
+def run_natural_language(query: str) -> None:
+    """python src/main.py "chill music for studying, 5 songs" """
+    from dotenv import load_dotenv
+    from preferences import extract_preferences, ExtractionError
+
+    load_dotenv()  # reads GEMINI_API_KEY from .env
+    catalog = load_catalog("data/catalog.csv")
+
+    try:
+        request = extract_preferences(query, catalog)
+    except ExtractionError as e:
+        sys.exit(f"Could not understand the request: {e}")
+
+    p = request.profile
+    print(f"\nRequest: {query}")
+    print("\n--- What the AI understood ---")
+    print(f"Genres:          {p.genres or '(any)'}")
+    print(f"Moods:           {p.moods or '(any)'}")
+    print(f"Target energy:   {p.target_energy:.2f}")
+    print(f"Target valence:  {p.target_valence:.2f}")
+    print(f"Likes acoustic:  {p.likes_acoustic}")
+    print(f"Songs requested: {request.num_songs}")
+    if request.reference_artists:
+        print(f"Like artists:    {request.reference_artists}")
+    if request.exclude_artists:
+        print(f"Exclude artists: {request.exclude_artists}")
+    if request.unmatched:
+        print(f"Not in catalog:  {request.unmatched}")
+
+    excluded = {a.lower() for a in request.exclude_artists}
+    allowed = [s for s in catalog if not any(x in s.artist.lower() for x in excluded)]
+    results = Recommender(allowed).recommend_with_scores(p, k=request.num_songs)
+
+    print(f"\n--- Top {len(results)} songs ---")
+    for i, (song, score, reasons) in enumerate(results, 1):
+        print(f"{i:2}. {song.title} - {song.artist}  [{song.genre}, {song.mood}]  score {score:.2f}")
 
 
 def main() -> None:
@@ -60,4 +101,8 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    logging.basicConfig(level=logging.WARNING, format="%(levelname)s %(name)s: %(message)s")
+    if len(sys.argv) > 1:
+        run_natural_language(" ".join(sys.argv[1:]))
+    else:
+        main()  # original demo with hardcoded profiles

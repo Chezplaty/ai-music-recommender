@@ -1,13 +1,11 @@
 import csv
-from typing import List, Dict, Tuple, Optional
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
+from typing import List, Dict, Tuple
+
 
 @dataclass
 class Song:
-    """
-    Represents a song and its attributes.
-    Required by tests/test_recommender.py
-    """
+    """A catalog song and its audio features (all features are 0.0-1.0 except tempo)."""
     id: int
     title: str
     artist: str
@@ -18,49 +16,78 @@ class Song:
     valence: float
     danceability: float
     acousticness: float
+    # Optional metadata, present in data/catalog.csv but not data/songs.csv
+    album: str = ""
+    popularity: int = 0
+    spotify_track_id: str = ""
+    source: str = ""
+
 
 @dataclass
 class UserProfile:
+    """A user's taste preferences, in the shape score_song() expects.
+
+    Lists allow several acceptable genres/moods (a song matches if it is in the list).
+    This is also the structured output the LLM preference extractor will fill in.
     """
-    Represents a user's taste preferences.
-    Required by tests/test_recommender.py
-    """
-    favorite_genre: str
-    favorite_mood: str
+    genres: List[str]
+    moods: List[str]
     target_energy: float
-    likes_acoustic: bool
+    target_valence: float = 0.5
+    likes_acoustic: bool = False
+
+    def to_prefs(self) -> Dict:
+        """Convert to the dict format used by score_song() / recommend_songs()."""
+        return {
+            "genre": self.genres,
+            "mood": self.moods,
+            "energy": self.target_energy,
+            "valence": self.target_valence,
+            "likes_acoustic": self.likes_acoustic,
+        }
+
 
 class Recommender:
-    """
-    OOP implementation of the recommendation logic.
-    Required by tests/test_recommender.py
-    """
+    """OOP wrapper around score_song(), so both interfaces share one scoring formula."""
+
     def __init__(self, songs: List[Song]):
         self.songs = songs
 
+    def recommend_with_scores(self, user: UserProfile, k: int = 5) -> List[Tuple[Song, float, List[str]]]:
+        """Top k songs as (song, score, reasons), highest score first."""
+        prefs = user.to_prefs()
+        scored = [(song, *score_song(prefs, asdict(song))) for song in self.songs]
+        scored.sort(key=lambda rec: rec[1], reverse=True)
+        return scored[:k]
+
     def recommend(self, user: UserProfile, k: int = 5) -> List[Song]:
-        # TODO: Implement recommendation logic
-        return self.songs[:k]
+        return [song for song, _, _ in self.recommend_with_scores(user, k)]
 
     def explain_recommendation(self, user: UserProfile, song: Song) -> str:
-        # TODO: Implement explanation logic
-        return "Explanation placeholder"
+        score, reasons = score_song(user.to_prefs(), asdict(song))
+        return f"Score {score:.2f}: " + "; ".join(reasons)
+
 
 def load_songs(csv_path: str) -> List[Dict]:
-    """Reads data/songs.csv and returns each row as a dict with numeric fields converted."""
-    int_fields = {"id", "tempo_bpm"}
+    """Reads a songs CSV and returns each row as a dict with numeric fields converted."""
+    int_fields = {"id", "tempo_bpm", "popularity"}
     float_fields = {"energy", "valence", "danceability", "acousticness"}
 
     songs = []
-    with open(csv_path, newline="") as f:
+    with open(csv_path, newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            for field in int_fields:
-                row[field] = int(row[field])
-            for field in float_fields:
-                row[field] = float(row[field])
+            for name in int_fields & row.keys():
+                row[name] = int(row[name])
+            for name in float_fields & row.keys():
+                row[name] = float(row[name])
             songs.append(row)
     return songs
+
+
+def load_catalog(csv_path: str) -> List[Song]:
+    """Reads a songs CSV into Song objects."""
+    return [Song(**row) for row in load_songs(csv_path)]
 
 def score_song(user_prefs: Dict, song: Dict) -> Tuple[float, List[str]]:
     """Returns a weighted similarity score and the reasons behind it for one song against user_prefs."""
