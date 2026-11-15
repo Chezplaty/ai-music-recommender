@@ -1,0 +1,301 @@
+id,title,artist,genre,mood,energy,tempo_bpm,valence,danceability,acousticness,album,popularity,spotify_track_id,source
+1,DNA,BTS,pop,happy,0.775,130,0.687,0.598,0.022,Love Yourself 承 'Her',71,5SE57ljOIUJ1ybL9U6CuBH,tidytuesday
+2,bad guy,Billie Eilish,pop,relaxed,0.425,135,0.562,0.701,0.328,"WHEN WE ALL FALL ASLEEP, WHERE DO WE GO?",95,2Fxmhks0bxGSBdJ92vM42m,tidytuesday
+3,"I'm the One (feat. Justin Bieber, Quavo, Chance the Rapper & Lil Wayne)",DJ Khaled,pop,happy,0.668,81,0.811,0.609,0.055,Grateful,76,3DXncPQOG4VBw3QHh3S817,tidytuesday
+4,Purple Lamborghini (with Rick Ross),Skrillex,pop,angry,0.899,147,0.298,0.457,0.002,Purple Lamborghini (with Rick Ross),72,6JyuJFedEvPmdWQW0PkbGJ,tidytuesday
+5,All Into Nothing,R3HAB,pop,intense,0.763,100,0.211,0.571,0.042,All Into Nothing,60,6KQxGfOdjHMh5wT15t0gJj,tidytuesday
+6,We're Not Gonna Take It,Twisted Sister,pop,happy,0.924,149,0.922,0.502,0.013,Stay Hungry,73,1hlveB9M6ijHZRbzZ2teyh,tidytuesday
+7,On the Road Again - Live,Willie Nelson,pop,happy,0.715,111,0.841,0.714,0.345,Willie Nelson - 16 Biggest Hits,51,51wQovDO0hf05pkZYvu1GI,tidytuesday
+8,Cool Kids,Olympis,pop,sad,0.5,126,0.119,0.735,0.415,Cool Kids,67,1ppOGANOzMT01Cxh9jx4hN,tidytuesday
+9,Eyes Wide Open,Sabrina Carpenter,pop,intense,0.641,88,0.353,0.584,0.004,Eyes Wide Open,57,4pbrp5dxpqjfaf4GiS6YuO,tidytuesday
+10,Found Love (feat. Lovespeake),MOTi,pop,happy,0.888,126,0.641,0.6,0.002,Found Love (feat. Lovespeake),59,7EHCt2jdVwHp557sfMPosf,tidytuesday
+11,Somebody Out There,Lost Kings,pop,intense,0.664,102,0.356,0.716,0.016,Somebody Out There,54,6XeMrBUyR2aNGI93l9Z27u,tidytuesday
+12,Would You Ever,Skrillex,pop,angry,0.91,126,0.092,0.653,0.008,Would You Ever,67,57p8CBvPOxrvyCbn6ttl5r,tidytuesday
+13,Like I Remember You,Vera Blue,indie pop,melancholic,0.334,200,0.359,0.415,0.65,Like I Remember You,58,6Ok1iGWO9wd5XFD3mA5lEv,tidytuesday
+14,All Time Low,Jon Bellion,indie pop,relaxed,0.567,90,0.505,0.617,0.058,The Human Condition,73,0SuLAslEMFZAXf0SwY7syi,tidytuesday
+15,Singing In The Rain,Simple Plan,indie pop,happy,0.733,149,0.719,0.617,0.028,Singing In The Rain,41,7zOs2hkIhTL8Bipkj9LZd0,tidytuesday
+16,You Love It!,ripmattblack,indie pop,happy,0.74,120,0.981,0.88,0.201,You Love It!,49,0mkgtO006NB4lVjjBF00Jn,tidytuesday
+17,Gravity,Ralph,indie pop,happy,0.668,118,0.765,0.754,0.366,Gravity,46,0O8z1t1M41aeVAUi7scRvb,tidytuesday
+18,Watch Me Dance,Tom Misch,indie pop,sad,0.29,118,0.192,0.771,0.323,Watch Me Dance,51,4vELW2hK9eb9R7Q0BNJ3Vh,tidytuesday
+19,MIDDLE OF THE NIGHT,Elley Duhé,indie pop,intense,0.611,186,0.09,0.41,0.023,MIDDLE OF THE NIGHT,57,58HvfVOeJY7lUuCqF0m3ly,tidytuesday
+20,Boredom (feat. Rex Orange County & Anna of the North),"Tyler, The Creator",indie pop,sad,0.578,80,0.239,0.559,0.79,Flower Boy,74,5WNYg3usc6H8N3MBEp4zVk,tidytuesday
+21,Love Me,Felix Cartal,indie pop,euphoric,0.824,117,0.613,0.754,0.051,Love Me,60,53hNIcq8OLj9OUNvQ4ulFM,tidytuesday
+22,Paradise,Rex Orange County,indie pop,melancholic,0.527,108,0.362,0.755,0.088,Bcos U Will Never B Free,59,22vU1n5k6pOuY6VOnQo3oz,tidytuesday
+23,I'm In Control,AlunaGeorge,indie pop,euphoric,0.844,104,0.711,0.725,0.363,I Remember,57,6SLTPbDxDYR0uSMTT7gSb7,tidytuesday
+24,Good Day,Surfaces,indie pop,chill,0.353,125,0.863,0.936,0.691,Good Day,69,7iTwzSe2fg5xYwCgXXFkEe,tidytuesday
+25,Perspective,Barnes Blvd.,hip hop,sad,0.135,115,0.157,0.476,0.906,Chillhop Daydreams,62,1yrZp8B0mLT18RuZccaDBJ,tidytuesday
+26,Beat It - Single Version,Michael Jackson,hip hop,euphoric,0.867,139,0.915,0.779,0.049,Thriller 25 Super Deluxe Edition,77,1OOtq8tRnDM8kG2gqUPjAj,tidytuesday
+27,How We Do,The Game,hip hop,happy,0.648,98,0.637,0.862,0.045,The Documentary,72,4PmMVdIFpJTB9WQbmILf4p,tidytuesday
+28,Rainman,Tymek,hip hop,intense,0.652,154,0.452,0.802,0.18,Rainman,67,7GMszPpwzW9Yehj9Ox2QLD,tidytuesday
+29,Hot In Herre,Nelly,hip hop,happy,0.745,107,0.912,0.956,0.206,Nellyville,71,04KTF78FFg8sOHC1BADqbY,tidytuesday
+30,Fogo de Chão,Costa Gold,hip hop,euphoric,0.83,125,0.709,0.895,0.24,Fogo de Chão,57,13g2BZK5DFHcHYRCPLiIDD,tidytuesday
+31,Deja Vu,Dolla,hip hop,chill,0.354,99,0.576,0.739,0.484,Deja Vu,51,5zdbfjCVtrAUwWeNFsE54s,tidytuesday
+32,NIGHT OWL,Psymun,hip hop,happy,0.786,80,0.862,0.402,0.543,Tape,48,6Y9JFYyGCcD34RJ7gTMcQM,tidytuesday
+33,Playaz Club,Rappin' 4-Tay,hip hop,chill,0.372,100,0.666,0.868,0.01,Don't Fight The Feelin',52,4ZYM6R5nOZywxACY90Bsla,tidytuesday
+34,Sweet Soul Music,Arthur Conley,hip hop,happy,0.659,80,0.965,0.59,0.104,Rhino Hi-Five: Arthur Conley,60,0pvA063uNyGQFp7DNtmk0P,tidytuesday
+35,Ruthless For Life,MC Ren,hip hop,euphoric,0.867,95,0.547,0.778,0.171,Ruthless For Life,43,4Cg05r39aFjzN1UN9jTK4O,tidytuesday
+36,IF YOU PRAY RIGHT,BROCKHAMPTON,hip hop,relaxed,0.516,160,0.535,0.468,0.439,IF YOU PRAY RIGHT,54,5smpR8TVfiPxywEHr1NbJK,tidytuesday
+37,Twenty One,Khalid,r&b,melancholic,0.445,110,0.405,0.776,0.212,Free Spirit,67,1NgCWYuBLfqBDA3b8MgSVU,tidytuesday
+38,Pose To Do (feat. French Montana and Quavo),Lil Pump,r&b,happy,0.633,160,0.624,0.638,0.136,Pose To Do (feat. French Montana and Quavo),56,5WkyhmqrQT8iGq0Y5VMa4a,tidytuesday
+39,Dreams In A Wraith,Jay Critch,r&b,intense,0.627,120,0.31,0.765,0.052,Dreams In A Wraith,65,4zodeeJbcglAma86fnv0jy,tidytuesday
+40,Playa,Baby K,r&b,relaxed,0.577,110,0.73,0.837,0.04,Playa,67,7bBIBrSmHvdMlTC7b9p8Vq,tidytuesday
+41,Made to Love Ya,Gerald Levert,r&b,melancholic,0.534,120,0.343,0.681,0.364,Gerald's World,43,6QnCf3tdlfCZLRcgfImwJb,tidytuesday
+42,you were good to me,Jeremy Zucker,r&b,sad,0.085,102,0.206,0.561,0.913,brent,82,4CxFN5zON70B3VOPBYbd6P,tidytuesday
+43,Better Now,Post Malone,r&b,melancholic,0.578,145,0.341,0.68,0.331,beerbongs & bentleys,87,7dt6x5M1jzdTEt8oCbisTK,tidytuesday
+44,The Name Of Our God,Tasha Cobbs Leonard,r&b,intense,0.711,148,0.276,0.391,0.003,Heart. Passion. Pursuit.,40,2N3ELS0qodljIlCx7BzOpe,tidytuesday
+45,Cosa ci ha fatto l'amore,Nek,r&b,sad,0.534,83,0.147,0.389,0.835,Il mio gioco preferito (Parte prima),52,77Gcau9O0kh48tlerpi6rX,tidytuesday
+46,Marvins Room,Drake,r&b,melancholic,0.26,112,0.312,0.492,0.646,Take Care (Deluxe),74,047fCsbO4NdmwCBn8pcUXl,tidytuesday
+47,Al Telefono,Cesare Cremonini,r&b,sad,0.507,150,0.039,0.469,0.005,2C2C (The Best Of),44,3jcbK4G7epSetifxuR1bZl,tidytuesday
+48,Moonlight,XXXTENTACION,r&b,relaxed,0.537,128,0.711,0.921,0.556,?,86,0JP9xo3adEtGSdUEISiszL,tidytuesday
+49,The Way I Do,Bishop Briggs,soul,intense,0.607,159,0.118,0.331,0.081,Bishop Briggs,60,4HXmYG1IR5xduvxTnr7fAp,tidytuesday
+50,What Kind Of Man Would I Be,Mint Condition,soul,melancholic,0.501,110,0.373,0.651,0.314,Definition Of A Band,51,5qR3pYQIC10S7aD2YBjgui,tidytuesday
+51,Will You Still Love Me Tomorrow? - 2011,Amy Winehouse,soul,intense,0.624,93,0.251,0.587,0.161,Lioness: Hidden Treasures,62,0LbK1bodGLc9xmV1cS9jvL,tidytuesday
+52,You Will Rise,Sweetback,soul,chill,0.387,88,0.509,0.769,0.134,Sweetback,40,6k4ZH5yi5mIBXiFK8xJoGJ,tidytuesday
+53,Never Gonna Give You Up,The Black Keys,soul,intense,0.665,76,0.437,0.557,0.324,Brothers,50,4qjqO5m5e5vebk9upd7xUU,tidytuesday
+54,"Valerie - Live At BBC Radio 1 Live Lounge, London / 2007",Amy Winehouse,soul,chill,0.367,96,0.681,0.757,0.736,Back To Black: B-Sides,65,6CQaVuICm1WVXyy3SZ5jEI,tidytuesday
+55,Feelings (feat. H.E.R.),Deante' Hitchcock,soul,intense,0.726,125,0.315,0.498,0.073,Just A Sample 2,47,1tfVIwrfYAwYS9iHuspdaE,tidytuesday
+56,Got 'Til It's Gone,Janet Jackson,soul,relaxed,0.413,90,0.518,0.789,0.022,The Velvet Rope,63,6jUyYHDikmw9WltPojSR37,tidytuesday
+57,Stop the World,Maxwell,soul,relaxed,0.538,120,0.515,0.73,0.27,BLACKsummers'night (2009),40,1gWFuF1aCfnjonAdyDfV7Y,tidytuesday
+58,Like A Star,Corinne Bailey Rae,soul,sad,0.226,123,0.142,0.605,0.715,Corinne Bailey Rae,63,5Anh8jULgeUgciLHCR25Mk,tidytuesday
+59,Monks,Frank Ocean,soul,happy,0.758,102,0.601,0.747,0.052,channel ORANGE,57,0msrDPXxZpts4FRnoX0bFr,tidytuesday
+60,Send It On,D'Angelo,soul,melancholic,0.258,127,0.335,0.789,0.168,Voodoo,53,5LIwaG8Wl9LfExcmiRQm7J,tidytuesday
+61,Self Esteem,The Offspring,rock,happy,0.912,105,0.611,0.458,0.018,Greatest Hits,71,6EsBn1Md8C5YdbCzvwvZq8,tidytuesday
+62,She Talks To Angels,The Black Crowes,rock,melancholic,0.526,160,0.313,0.583,0.063,Shake Your Money Maker,63,5NK8jad728pj6YeqM5VJD4,tidytuesday
+63,The Man Who Sold The World - MTV Unplugged,Nirvana,rock,intense,0.687,115,0.411,0.484,0.37,Nirvana (International Version),46,3jxrPXWriZPIXKGbuniXhW,tidytuesday
+64,Moondance - 2013 Remaster,Van Morrison,rock,chill,0.282,67,0.563,0.606,0.501,Moondance (Deluxe Edition),69,683b4ikwa62JevCjwrmfg6,tidytuesday
+65,Alone,Of Virtue,rock,happy,0.948,90,0.508,0.5,0.001,What Defines You,47,1w3XQHyd4stGaZmIlBU3cr,tidytuesday
+66,The Long And Winding Road - Remastered 2009,The Beatles,rock,melancholic,0.329,132,0.392,0.299,0.756,Let It Be (Remastered),63,3mlMpmY8oZIBFc39D9zLbh,tidytuesday
+67,The Boys Of Summer,Don Henley,rock,relaxed,0.549,177,0.907,0.516,0.501,Building The Perfect Beast,76,4gvea7UlDkAvsJBPZAd4oB,tidytuesday
+68,Hate To Say I Told You So,The Hives,rock,intense,0.931,136,0.419,0.459,0.001,Veni Vidi Vicious,66,20j7B6mL9gnNvG3ic6Vwh5,tidytuesday
+69,Rope,Foo Fighters,rock,happy,0.728,138,0.541,0.511,0.0,Wasting Light,60,7v0mtl6oInUtHOmTk2b0gC,tidytuesday
+70,Hollow,Barns Courtney,rock,intense,0.821,110,0.277,0.522,0.006,Hollow,52,3Gw2X0ZJgxlggAIuG36rVF,tidytuesday
+71,Baker Street,Gerry Rafferty,rock,melancholic,0.349,114,0.421,0.497,0.093,City To City,69,5gOd6zDC8vhlYjqbQdJVWP,tidytuesday
+72,Ramble On - 1990 Remaster,Led Zeppelin,rock,happy,0.607,98,0.886,0.468,0.072,Led Zeppelin II,70,3MODES4TNtygekLl146Dxd,tidytuesday
+73,Third Eye,Jimmy Clash,edm,intense,0.985,130,0.321,0.688,0.013,Third Eye,40,1xkYYQmULZ6bjPyud9C3DD,tidytuesday
+74,Let's Go,Lucas & Steve,edm,intense,0.844,126,0.181,0.626,0.024,Let's Go,55,4Q6ZUid2qqoxX3GTlBLCCP,tidytuesday
+75,Whisper,Boombox Cartel,edm,intense,0.848,150,0.281,0.505,0.168,Whisper,57,7uqXoZoKZKjuRdNphOQOgU,tidytuesday
+76,Loco Papi,Sevenn,edm,euphoric,0.987,125,0.786,0.759,0.075,Loco Papi,47,382fuVEZi9acM1bYGp2Zbx,tidytuesday
+77,Under Water,Max M,edm,relaxed,0.54,102,0.665,0.738,0.098,Under Water,47,2lhoNTM4ZkRuheQm4hNH2E,tidytuesday
+78,Lovefool,Scott Bradlee's Postmodern Jukebox,edm,melancholic,0.355,125,0.37,0.424,0.802,Swipe Right For Vintage,54,1MAIJFzQFIQ2Hkm3X5YtCW,tidytuesday
+79,Sweet Escape,Alesso,edm,happy,0.839,126,0.516,0.572,0.072,Forever,56,6vPJvkEuWZPcv58NnQ3dBR,tidytuesday
+80,Popcorn,Helion,edm,intense,0.925,128,0.366,0.525,0.002,Popcorn,40,24gRD0yTcDs2DhAydE5qOG,tidytuesday
+81,Revolusion,Elliphant,edm,intense,0.886,160,0.32,0.579,0.127,Look Like You Love It,41,7ppPVLsLNfHDneQnzZmUFJ,tidytuesday
+82,Radioactive,Imagine Dragons,edm,intense,0.784,136,0.236,0.448,0.106,Night Visions,78,62yJjFtgkhUrXktIoSjgP2,tidytuesday
+83,Need You,Tinlicker,edm,intense,0.837,123,0.052,0.637,0.01,Need You,40,0LcN82PW3JQLCnyEQWAFs5,tidytuesday
+84,Let The Music Guide You (ASOT 950 Anthem),Armin van Buuren,edm,angry,0.916,135,0.196,0.536,0.002,Let The Music Guide You (ASOT 950 Anthem),52,3mnRb7zMa365CYEpYOwYCz,tidytuesday
+85,Kiss Me,Robert Falcon,latin,intense,0.858,114,0.386,0.735,0.025,Kiss Me,41,0CPOpfnSiGwlyLZz2oTQGX,tidytuesday
+86,Cristina (feat. Shelow Shaq),Maffio,latin,relaxed,0.599,102,0.869,0.861,0.183,Cristina (feat. Shelow Shaq),77,2egI1hFZDAYrkCgtepoore,tidytuesday
+87,Tírate Al Medio,Don Omar,latin,angry,0.901,176,0.2,0.603,0.031,The Last Don II,46,15a5yBoHJhHHWjKbyLO10s,tidytuesday
+88,The Box,Roddy Ricch,latin,relaxed,0.586,117,0.642,0.896,0.104,Please Excuse Me For Being Antisocial,98,0nbXyq5TXYPCO7pr3N8S4I,tidytuesday
+89,No Me Dejes Solo,Daddy Yankee,latin,euphoric,0.837,96,0.798,0.79,0.075,Barrio Fino (Bonus Track Version),63,1EhM7nYYRpH2kzPdlnEpHa,tidytuesday
+90,Esa Boquita,Dragon & Caballero,latin,happy,0.772,190,0.704,0.747,0.049,The Hits 2009 - 2013,40,0miQeAfUWfaR9nLRyL43Aj,tidytuesday
+91,Ya No Soy Así,Cruz,latin,happy,0.746,100,0.541,0.798,0.137,Ya No Soy Así,61,5ldzmvKCSAT0BEeplaZYcS,tidytuesday
+92,Non Stop Never Stop,Harvio,latin,intense,0.637,114,0.224,0.689,0.153,Gambling Bonnie,43,4uKv2XmKAjB4SmtpmxPL4d,tidytuesday
+93,Cuerpo en Venta,Noriel,latin,intense,0.601,92,0.408,0.696,0.161,Cuerpo en Venta,83,2B94bbI1a4LyBpK1439oP7,tidytuesday
+94,Creo en Ti,Reik,latin,melancholic,0.268,86,0.441,0.584,0.857,Peligro,68,0FHNqVPxu14WivXR4Y2hFr,tidytuesday
+95,Sweet & Gentle - Me Lo Dijo Adela,Flora Martínez,latin,relaxed,0.452,123,0.793,0.933,0.645,Sweet and Gentle - Me Lo Dijo Adela,44,5jE0RnYQ3cE3oLw59bUnry,tidytuesday
+96,Aullando,Wisin & Yandel,latin,happy,0.74,90,0.775,0.8,0.184,"Los Campeones del Pueblo ""The Big Leagues""",80,7BuHdm4lQqcyG3qTwdkxus,tidytuesday
+97,Oh Caroline,The 1975,alt rock,happy,0.85,97,0.819,0.646,0.363,Being Funny In A Foreign Language,76,14dJexYlvd3t3XAtD1pYW1,spotify-tracks-hf
+98,Nervous,The Neighbourhood,alt rock,intense,0.614,120,0.318,0.589,0.021,Hard To Imagine The Neighbourhood Ever Changing,70,113xf7t4qNM7038YJvauik,spotify-tracks-hf
+99,Antonia,Gondwana,alt rock,happy,0.64,95,0.94,0.763,0.298,RAS Portraits,45,5n40SAKMk89wdWyhTfWzx4,spotify-tracks-hf
+100,Eye Of The Storm,Watt White,alt rock,happy,0.942,95,0.629,0.534,0.012,Eye Of The Storm,65,4Wj52fsynPssW52HDQuzrt,spotify-tracks-hf
+101,Se te nota,Los Tipitos,alt rock,happy,0.677,135,0.702,0.589,0.002,El Club De Los Martes,48,4qlb4cHm1GmndU5p3Z5s4T,spotify-tracks-hf
+102,Que Empiece el Juego,El Cuarteto De Nos,alt rock,happy,0.723,120,0.533,0.735,0.013,Jueves,46,20n9GjrKJBmN7nMEb21cxc,spotify-tracks-hf
+103,A Change Of Heart,The 1975,alt rock,relaxed,0.502,105,0.533,0.736,0.223,"I like it when you sleep, for you are so beautiful yet so unaware of it",59,49clMzwHdKb5f0awEH99pg,spotify-tracks-hf
+104,"Lord, I Need You",Matt Maher,alt rock,sad,0.451,75,0.185,0.457,0.517,All The People Said Amen,64,4EHWldZTas5KUyFtT0rQlY,spotify-tracks-hf
+105,Way Maker - Single Version,Leeland,alt rock,intense,0.655,144,0.222,0.468,0.015,Way Maker,64,0H4BGX7L8UfoD0g4wgXd0D,spotify-tracks-hf
+106,like that,Bea Miller,alt rock,melancholic,0.441,62,0.389,0.573,0.186,aurora,70,6E37j4b44JGpdk297urpKM,spotify-tracks-hf
+107,Olvidar,Los Caligaris,alt rock,happy,0.712,142,0.872,0.716,0.037,Canciones para Armar,46,1Kff9M64hU5w2sC8RpxT51,spotify-tracks-hf
+108,The Mystic,Adam Jensen,alt rock,intense,0.72,125,0.405,0.556,0.358,The Mystic,68,424GDxARRXRaZ7Mla9EDI2,spotify-tracks-hf
+109,Oh Love,Green Day,punk,happy,0.773,172,0.695,0.427,0.006,¡UNO!,56,1qIgyDoc2rwtq8w49jeWL8,spotify-tracks-hf
+110,Leningrad skyline,En Svensk Tiger,punk,happy,0.949,162,0.551,0.502,0.004,Versace Style,41,6HFVHZt5xRuPpiqFKXbJ6W,spotify-tracks-hf
+111,STARSTRUKK (feat. Katy Perry),"3OH!3, Katy Perry, Matt Squire",punk,intense,0.805,140,0.232,0.607,0.002,WANT (Deluxe),65,1hBM2D1ULT3aeKuddSwPsK,spotify-tracks-hf
+112,O Veneno,O Surto,punk,intense,0.922,154,0.446,0.505,0.049,O Surto - Equalizando As Ideias,41,3X9D8xFPRNIWKSonfedpsZ,spotify-tracks-hf
+113,Full Moon,The Black Ghosts,punk,relaxed,0.598,105,0.555,0.564,0.011,The Black Ghosts,60,0uwNtbl80CvP4EFio32PYv,spotify-tracks-hf
+114,This Charming Man - 2011 Remaster,The Smiths,punk,happy,0.846,104,0.751,0.611,0.005,The Smiths,77,1FvDJ9KGxcqwv1utyPL3JZ,spotify-tracks-hf
+115,Holiday in Cambodia - Single Version,Dead Kennedys,punk,intense,0.924,198,0.486,0.135,0.004,Post Punk Rules,42,25R7pmPXYolhIjm72WtJjy,spotify-tracks-hf
+116,Telephone,Waterparks,punk,happy,0.951,85,0.873,0.595,0.032,FANDOM,60,4VgdhAy0DBSF5hbbKzTEdS,spotify-tracks-hf
+117,"April 29, 1992 (Miami)",Sublime,punk,happy,0.683,79,0.738,0.758,0.015,20th Century Masters: The Millennium Collection: Best Of Sublime,40,4aiGuq8owmdrU9WKZNVfCe,spotify-tracks-hf
+118,I Miss You,blink-182,punk,happy,0.714,110,0.593,0.423,0.001,blink-182,78,1AdYZ6X00nXmO613Y7GJOl,spotify-tracks-hf
+119,Un Pacman en el Savoy,Patricio Rey y sus Redonditos de Ricota,punk,happy,0.924,135,0.729,0.463,0.225,¡Bang! ¡Bang!... Estás Liquidado,41,7y7W8abNjZdG9BCHIO4Saa,spotify-tracks-hf
+120,The Light Behind Your Eyes,My Chemical Romance,punk,sad,0.459,75,0.113,0.407,0.045,Number Three,60,3HyDpKAuR3e4l6QB7hSB2l,spotify-tracks-hf
+121,Pneuma,TOOL,metal,sad,0.53,114,0.059,0.415,0.002,Fear Inoculum,64,03sEzk1VyrUZSgyhoQR0LZ,spotify-tracks-hf
+122,Gaddaar,Bloodywood,metal,angry,0.989,105,0.209,0.549,0.009,Rakshak,52,3Kj2M9gRU1Lwf5eiNjBtBp,spotify-tracks-hf
+123,Hand Of Blood,Bullet For My Valentine,metal,intense,0.986,94,0.492,0.378,0.0,The Poison,60,1z3LsJRCvln5qO5TOLduQM,spotify-tracks-hf
+124,So Called Life,Three Days Grace,metal,intense,0.909,160,0.457,0.505,0.0,EXPLOSIONS,70,1QTQ3VNzabl4yF5GJE6hhK,spotify-tracks-hf
+125,Bulletproof,Godsmack,metal,happy,0.915,162,0.603,0.362,0.0,When Legends Rise,59,22GEETI4LXhhePCO71PyEv,spotify-tracks-hf
+126,Afterlife,Avenged Sevenfold,metal,intense,0.949,110,0.406,0.487,0.0,Avenged Sevenfold,70,7zAt4tdL44D3VuzsvM0N8n,spotify-tracks-hf
+127,Tlatelolco 68,Banda Bostik,metal,happy,0.763,137,0.612,0.553,0.011,15 Éxitos,44,0IpAufJEjttMegWQvxcI2i,spotify-tracks-hf
+128,Shadow of the Day,Linkin Park,metal,sad,0.393,110,0.064,0.534,0.005,Minutes to Midnight,52,4Sxx1wd4nnB8ob8Zsujwrs,spotify-tracks-hf
+129,Paranoid,Megadeth,metal,happy,0.973,187,0.628,0.355,0.0,Hidden Treasures,65,0WTc2jsUgF4Y2MOz0aYvsR,spotify-tracks-hf
+130,BLOODLINE,"Sinizter, Pharmacist, Ghostface Playa",metal,happy,0.977,150,0.619,0.698,0.033,BLOODLINE,50,3EqkflivbF639pZxjyl7JN,spotify-tracks-hf
+131,Seize the Day,Avenged Sevenfold,metal,intense,0.802,140,0.338,0.393,0.017,City of Evil,41,5pYVlQB1b9u9JEjaLmIDNB,spotify-tracks-hf
+132,Dark Necessities,Red Hot Chili Peppers,metal,intense,0.742,92,0.197,0.7,0.072,The Getaway,74,2oaK4JLVnmRGIO9ytBE1bt,spotify-tracks-hf
+133,Amor Fati,Washed Out,synthpop,happy,0.857,101,0.531,0.508,0.043,Within and Without,42,1MshbXeUt8iB4guGXQaU9h,spotify-tracks-hf
+134,"How Long - From""Euphoria"" An HBO Original Series",Tove Lo,synthpop,intense,0.687,97,0.468,0.668,0.016,"How Long (From ""Euphoria"" An HBO Original Series)",71,05eZlxyjbkHMPCnunUasCS,spotify-tracks-hf
+135,Tarzan Boy,Baltimora,synthpop,euphoric,0.803,107,0.695,0.703,0.346,Tarzan Boy: The World Of Baltimora,64,6FwMGM0Dtmf0vz6BdIc8uP,spotify-tracks-hf
+136,Obsession,Animotion,synthpop,intense,0.613,115,0.415,0.673,0.004,Obsession: The Best Of Animotion,57,3N7GqZMpZJW69Te1bfUTc3,spotify-tracks-hf
+137,There Must Be an Angel (Playing With My Heart),"Eurythmics, Annie Lennox, Dave Stewart",synthpop,happy,0.672,112,0.611,0.539,0.342,Greatest Hits,59,1YJ4vpxPL6Wgo8gmRnvqSp,spotify-tracks-hf
+138,We Got The Beat,The Go-Go's,synthpop,intense,0.994,152,0.481,0.587,0.155,Beauty And The Beat,64,5kz9GDBTX846OXwqWoyKzF,spotify-tracks-hf
+139,Shadow,Chromatics,synthpop,relaxed,0.539,107,0.551,0.591,0.012,Shadow,53,3sJQGz6WX2YIBaHsH3bRMq,spotify-tracks-hf
+140,Angie's Heart,Modern Talking,synthpop,happy,0.823,117,0.854,0.694,0.426,Ready For Romance,47,3jTavhTXfWlnu8zsn9NCAY,spotify-tracks-hf
+141,Hold Me Now,Thompson Twins,synthpop,relaxed,0.516,108,0.882,0.787,0.66,Into The Gap,58,1B1Y52ftMyCmgjPsEMQDqq,spotify-tracks-hf
+142,It's a Sin,Pet Shop Boys,synthpop,intense,0.715,127,0.352,0.529,0.092,Discography - Complete Singles Collection,57,3GNwCZIv4xKUiyoaQfj9Ah,spotify-tracks-hf
+143,Go West - 2003 Remaster,Pet Shop Boys,synthpop,intense,0.951,121,0.444,0.535,0.017,PopArt: The Hits,64,5Klo65Y9uouLjNVDV3pqh7,spotify-tracks-hf
+144,Never Stop,"FM-84, Ollie Wride",synthpop,happy,0.743,168,0.523,0.404,0.005,Never Stop,45,2U9xilwDVbl5upU99insIn,spotify-tracks-hf
+145,"Jaan - E - Jigar Jaaneman (From ""Aashiqui"")","Anuradha Paudwal, Kumar Sanu",k-pop,happy,0.72,82,0.728,0.41,0.827,Ultimate Romantic Duet - Kumar Sanu & Anuradha Paudwal,44,216Z9I1u4RTtOpOUVZ927K,spotify-tracks-hf
+146,Feel My Rhythm,Red Velvet,k-pop,intense,0.94,158,0.423,0.412,0.065,‘The ReVe Festival 2022 - Feel My Rhythm’,75,2oBMZYteeO8DyXV9gDx6Za,spotify-tracks-hf
+147,I NEED U,BTS,k-pop,happy,0.858,158,0.737,0.482,0.022,Proof,63,1GunnGtZCSjLUAPG6yrDUC,spotify-tracks-hf
+148,To My Youth,BOL4,k-pop,melancholic,0.564,173,0.441,0.424,0.685,Red Diary Page.1,68,4gMPlHHAjOQnUrhsuqHivn,spotify-tracks-hf
+149,"Oru Devathai (From ""Vaamanan"")","Yuvan Shankar Raja, Roop Kumar Rathod",k-pop,melancholic,0.493,120,0.281,0.642,0.163,All About Love: Yuvanshankar Raja,57,3KmqCi6VD4IkonTDO1LRge,spotify-tracks-hf
+150,Kanja Poovu Kannala,"Yuvan Shankar Raja, Sid Sriram",k-pop,happy,0.692,110,0.514,0.675,0.29,Viruman (Original Motion Picture Soundtrack),61,1KYqHPwbceagFffliE7fBg,spotify-tracks-hf
+151,"Nazar Ke Samne (From ""Aashiqui"")","Anuradha Paudwal, Kumar Sanu",k-pop,relaxed,0.51,143,0.526,0.458,0.715,Ultimate Romantic Duet - Kumar Sanu & Anuradha Paudwal,47,3jhhrbdRaD0W8mHvtV3bgL,spotify-tracks-hf
+152,Puli Urumudhu,"Vijay Antony, Ananthu, Mahesh Vinayakram",k-pop,euphoric,0.922,112,0.734,0.84,0.646,Vettaikaaran (Original Motion Picture Soundtrack),45,320mx0rG1WXP9M7ozPwK1w,spotify-tracks-hf
+153,TOMBOY,(G)I-DLE,k-pop,euphoric,0.87,124,0.645,0.755,0.01,I NEVER DIE,80,0IGUXY4JbK18bu9oD4mPIm,spotify-tracks-hf
+154,Mayam Seidhayo,"Vijay Antony, Sangeetha Rajeshwaran",k-pop,happy,0.659,135,0.951,0.786,0.433,Velayudham (Original Motion Picture Soundtrack),50,1PSz9VCtLOo4sgcFluNMPu,spotify-tracks-hf
+155,Don't Know What To Do,BLACKPINK,k-pop,intense,0.64,130,0.409,0.628,0.099,Kill This Love,66,4ghGrdxwqLA6ZoCiu0u4IR,spotify-tracks-hf
+156,Shut Down,BLACKPINK,k-pop,happy,0.657,110,0.651,0.813,0.003,BORN PINK,87,6tCd8bPvYnceDG7W9M1RMk,spotify-tracks-hf
+157,Investimento Milionário,MC Hariel,funk,relaxed,0.425,130,0.636,0.856,0.407,"Chora Agora, Ri Depois",42,7LyAGakRZWFqZwqeNCmoEP,spotify-tracks-hf
+158,Inspiração,"MC Paulin da Capital, Dj GM, Oldilla",funk,happy,0.738,112,0.912,0.759,0.391,Mandrake na Voz,43,75UszEDYQvvuysTB8IU08j,spotify-tracks-hf
+159,Desenvolto 2,"Mc Kadu, MC Rodolfinho, Dj Nene",funk,relaxed,0.499,113,0.692,0.895,0.328,Desenvolto 2,48,4I2YBItd5io6ljzNTgvAcG,spotify-tracks-hf
+160,TUA INDECISÃO,"Gloria Groove, Sorriso Maroto",funk,happy,0.692,142,0.724,0.571,0.6,LADY LESTE,51,00Ofee5Bbfstz49RfSL0oM,spotify-tracks-hf
+161,More Than Words,Extreme,funk,melancholic,0.134,183,0.258,0.403,0.469,Extreme II: Pornograffitti (Deluxe),67,58c8pMaXi3xdpBIVfG6WGC,spotify-tracks-hf
+162,"Young, Wild & Free (feat. Bruno Mars)","Snoop Dogg, Wiz Khalifa, Bruno Mars",funk,happy,0.652,95,0.551,0.553,0.09,Mac and Devin Go to High School (Music from and Inspired by the Movie),68,6YbhspuOar1D9WSSnfe7ds,spotify-tracks-hf
+163,Ela Tá Que Tá,"Mc Davi, Cynthia Luz, Felipe Flip, Pedro Lotto, Paiva Prod",funk,melancholic,0.418,123,0.253,0.75,0.128,Ela Tá Que Tá,48,3G79AJm9H5lKnngSgBT21L,spotify-tracks-hf
+164,Paranoia,"Felp 22, Medellin, Sueth",funk,relaxed,0.519,145,0.563,0.642,0.742,Joias do Bairro,49,4horm0SEWe8kMxFjdf7Aab,spotify-tracks-hf
+165,Bum Bum Tam Tam,"MC Fioti, Future, J Balvin, Stefflon Don, Juan Magán",funk,happy,0.675,132,0.659,0.896,0.346,Bum Bum Tam Tam,69,6k2900NjJeVqZM55G3Danu,spotify-tracks-hf
+166,Mega das Blogueiras,"Mc Frog, Mc DB, Mc Laranjinha, Mc Junior Pk",funk,intense,0.673,130,0.473,0.724,0.408,Mega das Blogueiras,42,0Oq7iEhC6hL4tHsd0z1RTK,spotify-tracks-hf
+167,Bolo de Rolo,DUDA BEAT,funk,intense,0.649,140,0.38,0.637,0.124,Sinto Muito,44,0BZW5HA4Iw85L02qej9RPJ,spotify-tracks-hf
+168,Peace and Love,Red Hot Chili Peppers,funk,happy,0.679,84,0.867,0.68,0.005,Return of the Dream Canteen,67,3W2reBya7FkjHCP1B2nmQr,spotify-tracks-hf
+169,Blue Moon,Billie Holiday,jazz,chill,0.269,125,0.539,0.639,0.982,Solitude,65,1pZn8AX1WulW8IO338hE5D,spotify-tracks-hf
+170,Kardeşin Duymaz,Zülfü Livaneli,jazz,melancholic,0.423,136,0.39,0.609,0.797,"Bütüneserleri, Vol. 6 (Günlerimiz)",41,3qeXSz02VoeNntvBX0Skw6,spotify-tracks-hf
+171,La vie en rose,Louis Armstrong,jazz,melancholic,0.079,71,0.319,0.584,0.884,C'est Si Bon,64,5IIybI1oiOCY3DRUrpQ7zA,spotify-tracks-hf
+172,Kusura Bakmasınlar,Jehan Barbur,jazz,melancholic,0.577,82,0.373,0.65,0.543,Kusura Bakmasınlar,41,12SNxpytVKahQ25nOTpbFX,spotify-tracks-hf
+173,Gamzedeyim Deva Bulmam,Müzeyyen Senar,jazz,melancholic,0.441,144,0.328,0.294,0.836,"Yayınlanmamış Şarkılar, Vol. 2",43,6D8MQ04WjnY9Jrhi1MdNFa,spotify-tracks-hf
+174,Kong,Bonobo,jazz,happy,0.749,94,0.674,0.542,0.173,Black Sands,58,7Cg3F9ZsZ2TYUnlza49NYh,spotify-tracks-hf
+175,Blue in Green (feat. John Coltrane & Bill Evans),"Miles Davis, John Coltrane, Bill Evans",jazz,sad,0.016,110,0.154,0.421,0.808,Kind Of Blue (Legacy Edition),63,0aWMVrwxPNYkKmFthzmpRi,spotify-tracks-hf
+176,Distant Stars,"Zmeyev, Screen Jazzmaster",jazz,chill,0.308,80,0.757,0.696,0.659,Distant Stars,57,5eF05n2gqGMhPPaylRsrrU,spotify-tracks-hf
+177,Dream A Little Dream Of Me - Single Version,"Ella Fitzgerald, Louis Armstrong",jazz,melancholic,0.104,76,0.394,0.443,0.913,"Love, Ella",66,78MI7mu1LV1k4IA2HzKmHe,spotify-tracks-hf
+178,Maze of Tranquility,Martin Landström,jazz,sad,0.134,113,0.051,0.488,0.76,Maze of Tranquility,63,06henIQqvVk2vAKj1yQtTp,spotify-tracks-hf
+179,Inner Courage,"Mr. Käfer, Eu93ne",jazz,chill,0.321,144,0.964,0.716,0.911,Inner Courage,58,0yEGDxJqqwRq2n1DCbUIAM,spotify-tracks-hf
+180,Aftermath,Caravan Palace,jazz,intense,0.663,140,0.403,0.614,0.23,<I°_°I>,56,7iaQV6plfQRead7XdleWM4,spotify-tracks-hf
+181,At Last,Etta James,blues,melancholic,0.348,87,0.328,0.274,0.547,At Last!,75,4Hhv2vrOTy89HFRcjU3QOx,spotify-tracks-hf
+182,Layla,Derek & The Dominos,blues,intense,0.902,116,0.497,0.404,0.577,Layla And Other Assorted Love Songs (Remastered 2010),74,2kkvB3RNRzwjFdGhaUA0tz,spotify-tracks-hf
+183,St. James Infirmary Blues,The White Stripes,blues,happy,0.857,119,0.624,0.585,0.58,The White Stripes,50,0ujFmyKkSXQnlVMBz4plMM,spotify-tracks-hf
+184,Lenny,Stevie Ray Vaughan,blues,melancholic,0.171,118,0.321,0.513,0.775,Texas Flood (Legacy Edition),56,0h4jHdNzUrV9eGR2PT5R8c,spotify-tracks-hf
+185,Wonderful Tonight,Eric Clapton,blues,melancholic,0.214,96,0.485,0.572,0.649,Slowhand 35th Anniversary (Super Deluxe),76,6zC0mpGYwbNTpk9SKwh08f,spotify-tracks-hf
+186,Pinball Wizard,The Who,blues,intense,0.715,124,0.468,0.543,0.019,Tommy,68,6LbbHFEajG9e4m0G3L47c4,spotify-tracks-hf
+187,The Boys Are Back In Town,Thin Lizzy,blues,happy,0.706,81,0.768,0.445,0.234,Jailbreak (Deluxe Edition),76,43DeSV93pJPT4lCZaWZ6b1,spotify-tracks-hf
+188,Hard To Handle,The Black Crowes,blues,happy,0.79,104,0.961,0.599,0.003,Shake Your Money Maker,72,05NYcsjJwOYq4jIiKPVj9p,spotify-tracks-hf
+189,"I Know Where I've Been - from the Netflix Film ""Luckiest Girl Alive""",Elle King,blues,sad,0.513,120,0.074,0.576,0.208,"I Know Where I've Been (from the Netflix Film ""Luckiest Girl Alive"")",52,6Nm4X6HWL4TNSMGClw52Xf,spotify-tracks-hf
+190,Go With The Flow,Queens of the Stone Age,blues,intense,0.991,159,0.415,0.246,0.009,Songs For The Deaf,68,0wzRcekWyVCSyPtlPOeJau,spotify-tracks-hf
+191,Howlin' for You,The Black Keys,blues,intense,0.747,133,0.38,0.725,0.027,Brothers (Deluxe Remastered Anniversary Edition),66,4yffABDkB5A9flvr9vQFck,spotify-tracks-hf
+192,Sweet Home Alabama - Edit,Lynyrd Skynyrd,blues,happy,0.655,98,0.91,0.63,0.221,20th Century Masters: The Millennium Collection: Best Of The '70s,62,72FTNsVwlDXMgxyEnmjwM0,spotify-tracks-hf
+193,"Hotel California - Live On MTV, 1994",Eagles,country,relaxed,0.49,75,0.609,0.55,0.368,Hell Freezes Over (Remaster 2018),65,2GpBrAoCwt48fxjgjlzMd4,spotify-tracks-hf
+194,Just A Kiss,Lady A,country,intense,0.639,143,0.332,0.593,0.446,Own The Night,64,2OXidlnDThZR3zf36k6DVL,spotify-tracks-hf
+195,"Take Me Home, Country Roads (Acoustic)",Music Travel Love,country,chill,0.316,94,0.645,0.703,0.736,"Take Me Home, Country Roads (Acoustic)",58,2PGYNCB7e3bC7AP0WMJiUI,spotify-tracks-hf
+196,Life is a Highway,Rascal Flatts,country,happy,0.934,103,0.558,0.562,0.002,Cars (Original Motion Picture Soundtrack),73,5gB2IrxOCX2j9bMnHKP38i,spotify-tracks-hf
+197,H.O.L.Y.,Florida Georgia Line,country,happy,0.666,78,0.564,0.523,0.401,Dig Your Roots,71,0BCy325UZyR9z0t0uxwn2N,spotify-tracks-hf
+198,One Friend,Dan Seals,country,melancholic,0.057,125,0.386,0.459,0.815,San Antone,58,3VWNwd48T1J9VR7cpcx4s1,spotify-tracks-hf
+199,Never Loved You At All,Parker McCollum,country,happy,0.891,108,0.851,0.552,0.091,Gold Chain Cowboy,43,3sLWLYFIRgbbvKYhYCyK1D,spotify-tracks-hf
+200,Ei runde til,Rotlaus,country,happy,0.832,103,0.525,0.608,0.015,På vei,43,0xjKyw8MYQY33BlY9bvqCS,spotify-tracks-hf
+201,Beautiful Crazy,Luke Combs,country,melancholic,0.402,103,0.382,0.551,0.676,This One's for You Too (Deluxe Edition),80,2rxQMGVafnNaRaXlRMWPde,spotify-tracks-hf
+202,Coward Of The County,Kenny Rogers,country,relaxed,0.433,91,0.675,0.652,0.134,Kenny,64,0JkIre0YxNmKGMU5V7ZiDx,spotify-tracks-hf
+203,I Got the Boy,Jana Kramer,country,melancholic,0.569,150,0.361,0.625,0.26,thirty one,58,6tbNaE7kvGNqS7FvJ0dzLB,spotify-tracks-hf
+204,Tennessee Whiskey,Chris Stapleton,country,chill,0.37,49,0.512,0.392,0.205,Traveller,81,3fqwjXwUGN6vbzIwvyFMhx,spotify-tracks-hf
+205,Sochta Houn,"Nusrat Fateh Ali Khan, A1Melodymaster",folk,intense,0.634,100,0.46,0.8,0.356,Reformed,59,5wNpnKRUxbPoIpDXFZ5NkU,spotify-tracks-hf
+206,Free Fallin',Tom Petty,folk,relaxed,0.449,84,0.572,0.623,0.212,Full Moon Fever,77,5tVA6TkbaAH9QMITTQRrNv,spotify-tracks-hf
+207,Like a Rolling Stone,Bob Dylan,folk,happy,0.721,95,0.557,0.482,0.731,Highway 61 Revisited,70,3AhXZa8sUQht0UEdBJgpGc,spotify-tracks-hf
+208,Saiyyan - Lofi Flip,"Kailash Kher, VIBIE",folk,sad,0.464,180,0.132,0.52,0.961,Saiyyan (Lofi Flip),54,77IPBSEbMAiH7gOGfLllKz,spotify-tracks-hf
+209,Hope,Old Sea Brigade,folk,melancholic,0.257,106,0.313,0.583,0.945,Ode to a Friend,61,0DOUO2YQnDrD5ad3qXA0vO,spotify-tracks-hf
+210,Atlantis,Seafret,folk,sad,0.479,166,0.213,0.4,0.053,Tell Me It's Real (Expanded Edition),90,1Fid2jjqsHViMX6xNH70hE,spotify-tracks-hf
+211,La Trastrasera,Coro Chile Canta,folk,happy,0.639,102,0.639,0.531,0.396,Chile Tipico Vol.3 Camino De Luna,44,1X30v8HmoxxhukqPgFum7q,spotify-tracks-hf
+212,As It Was,"Vancouver Sleep Clinic, Amelia Magdalena",folk,sad,0.308,144,0.136,0.54,0.909,As It Was,59,7a7gUCiBV0dgXziowAlR96,spotify-tracks-hf
+213,American Pie,Don McLean,folk,melancholic,0.481,138,0.491,0.531,0.699,American Pie,76,1fDsrQ23eTAVFElUMaf38X,spotify-tracks-hf
+214,Missing Piece,Vance Joy,folk,happy,0.877,102,0.721,0.628,0.015,Missing Piece,70,5YqdiryRmdAzYFlxo43hAJ,spotify-tracks-hf
+215,Teri Deewani - Lofi Flip,"Kailash Kher, Deepanshu Ruhela",folk,melancholic,0.378,75,0.454,0.68,0.184,Teri Deewani (Lofi Flip),49,0Bfima51LTKrxuBYjv0Qwp,spotify-tracks-hf
+216,Skinny Love,Bon Iver,folk,sad,0.263,76,0.109,0.592,0.845,"For Emma, Forever Ago",73,3B3eOgLJSqPEA0RfboIQVM,spotify-tracks-hf
+217,Isn't She Lovely - Acoustic,Callum J Wright,acoustic,melancholic,0.306,116,0.424,0.69,0.805,Isn't She Lovely (Acoustic),54,2C9ePPz58he8jmYEod9pvT,spotify-tracks-hf
+218,Stargazing,Isabella Celander,acoustic,chill,0.204,140,0.525,0.69,0.932,Stargazing,55,4sAX65hbNtEC1lceCdGuMt,spotify-tracks-hf
+219,12:51,krissy & ericka,acoustic,melancholic,0.357,136,0.438,0.503,0.727,Twelve: Fifty One (International Version),64,1FHCU1rDAeaPsBW9byjJ0Q,spotify-tracks-hf
+220,Pano,Zack Tabudlo,acoustic,melancholic,0.457,175,0.415,0.375,0.868,Pano,75,08MFgEQeVLF37EyZ7jcwLc,spotify-tracks-hf
+221,Only Time,Aaron Espe,acoustic,melancholic,0.261,136,0.361,0.696,0.737,Only Time,56,6QXolVfFVjUHPp5TVzsjIF,spotify-tracks-hf
+222,When the End Comes,Andrew Belle,acoustic,melancholic,0.575,92,0.428,0.541,0.677,Dive Deep,57,3Et4LKZLnXygPYfNdeB3D3,spotify-tracks-hf
+223,Lonely With Me,Parachute,acoustic,happy,0.809,87,0.628,0.589,0.048,Wide Awake,51,1ytsxlw6P6gsCc3RrYweyj,spotify-tracks-hf
+224,Fade into You,Andrew Belle,acoustic,melancholic,0.398,160,0.371,0.478,0.022,Fade into You,53,63F2nWghdifkNHVns5GT8W,spotify-tracks-hf
+225,Anyone,Bailey Jehl,acoustic,melancholic,0.208,200,0.309,0.371,0.912,Anyone,53,0YhsOegsemgmT7ZHdWheUy,spotify-tracks-hf
+226,Arms Of A Woman,Amos Lee,acoustic,sad,0.067,142,0.12,0.54,0.888,Amos Lee,60,37pK088xTo1ZpR3y23wsFk,spotify-tracks-hf
+227,I Wanna Be Your Ghost (feat. Ghosts),Gen Hoshino,acoustic,happy,0.751,130,0.96,0.829,0.014,I Wanna Be Your Ghost (feat. Ghosts),50,12qmPGMrOCogibc7qyxT9s,spotify-tracks-hf
+228,I Need You More Today,"Caleb Santos, Viva Music Publishing Inc.",acoustic,melancholic,0.522,158,0.446,0.461,0.36,I Need You More Today,68,04qDUASuSfVp6fktfsxVej,spotify-tracks-hf
+229,"Sonata No. 14 ""Moonlight"" in C-Sharp Minor"", Op. 27 No. 2: I. Adagio sostenuto","Ludwig van Beethoven, Paul Lewis",classical,sad,0.005,171,0.151,0.184,0.995,"Beethoven: Piano Sonatas, Vol.3",69,3DNRdudZ2SstnDCVKFdXxG,spotify-tracks-hf
+230,"Chopin: Nocturne No. 20 in C-Sharp Minor, Op. Posth.","Frédéric Chopin, Mikhail Pletnev",classical,sad,0.005,164,0.186,0.225,0.992,"Chopin: Piano Sonata No. 2, Nocturnes, Barcarolle & Scherzo",66,2MSgFefjK0T7Iwjvr3OKqV,spotify-tracks-hf
+231,Lalitha Pancharatnam,Priya Sisters,classical,melancholic,0.378,103,0.479,0.67,0.835,Lalitha Pancharatnam,40,5IDS56FCiyNOvxpb4Qlnlg,spotify-tracks-hf
+232,Hold My Hand,The Piano Lover,classical,sad,0.03,176,0.142,0.32,0.993,Hold My Hand,46,0sdKX3AQM33b3aO8QW4li6,spotify-tracks-hf
+233,"Yaar Zaahir (feat. Neha Sharma,Aashim Gulati)","Rashid Khan, Palak Muchhal, Neha Sharma, Aashim Gulati",classical,chill,0.38,102,0.525,0.677,0.937,"Yaar Zaahir (feat. Neha Sharma,Aashim Gulati)",46,5VJkEUAvmEelXkmKAE21U6,spotify-tracks-hf
+234,Alunguraen Kulunguraen,"Prasanna, Namitha Babu",classical,happy,0.703,172,0.598,0.57,0.313,Chandi Veeran (Original Motion Picture Soundtrack),45,61cxfQqN4UOhCpNsj3mBl5,spotify-tracks-hf
+235,Rue des trois frères,Fabrizio Paterlini,classical,sad,0.169,139,0.107,0.348,0.959,Fragments Found,65,3lSOZb5rruEnFbe9xWELF6,spotify-tracks-hf
+236,Experience,"Ludovico Einaudi, Daniel Hope, I Virtuosi Italiani",classical,sad,0.474,92,0.038,0.457,0.93,Isolate & Chill,53,4mecZsH7nSz3zUkqhdZTd6,spotify-tracks-hf
+237,Kiss the Rain,Yiruma,classical,sad,0.096,113,0.202,0.557,0.99,The Best - Reminiscent 10th Anniversary,56,4qto2kJITIHyE086P4WtkU,spotify-tracks-hf
+238,The Theory of Everything,Jóhann Jóhannsson,classical,sad,0.118,104,0.175,0.421,0.842,The Theory of Everything (Original Motion Picture Soundtrack),64,5fJD7wh9yoSTpl9d5rgl7l,spotify-tracks-hf
+239,Merry-Go-Round of Life - from 'Howl's Moving Castle',Joe Hisaishi,classical,sad,0.287,72,0.185,0.239,0.876,FREEDOM PIANO STORIES 4,68,39uLYYZytVUwcjgeYLI409,spotify-tracks-hf
+240,Vinayagane Vinai Theerpavane Revival,Sirkazhi Govindarajan,classical,happy,0.666,100,0.653,0.42,0.818,Vinayagar - Murugan Songs Tamil Devotionl -Revival,47,0NHlPYnisv4NcPCa4a6qcG,spotify-tracks-hf
+241,Dissonance,Hammock,ambient,happy,0.668,86,0.506,0.423,0.038,Everything and Nothing,42,1hYKf70p3y7dX5Na2qDARt,spotify-tracks-hf
+242,Alive,"Mansij, Max B Groove",ambient,sad,0.407,120,0.036,0.539,0.439,Alive,40,6grkrnX0IaNPz92hH8qDAt,spotify-tracks-hf
+243,Discovery At Night,Ludovico Einaudi,ambient,sad,0.033,125,0.1,0.295,0.994,In A Time Lapse,51,5L8f98adkgyzT8DLL5ppec,spotify-tracks-hf
+244,We Dance - Live,"Bethel Music, Steffany Gretzinger",ambient,melancholic,0.274,76,0.379,0.302,0.947,You Make Me Brave (Live),50,32DCSsnAxX8jpmu9w6C8DW,spotify-tracks-hf
+245,In the Kitchen,Mree,ambient,melancholic,0.344,118,0.272,0.567,0.91,In the Kitchen,53,7gNMA44kr4X9g3KVdlzE0R,spotify-tracks-hf
+246,Ariana,Tony Anderson,ambient,sad,0.185,93,0.034,0.513,0.967,Ariana,47,1ey4hhMVl1Tv9MK1y44tS0,spotify-tracks-hf
+247,Small Hands,Keaton Henson,ambient,relaxed,0.525,98,0.603,0.649,0.912,Dear,52,40jiZBsr1W3SG15AGU9227,spotify-tracks-hf
+248,Younger,Tony Anderson,ambient,sad,0.054,120,0.04,0.176,0.953,Chasm,44,32zrKU0KPtMBFdQv5LTa9H,spotify-tracks-hf
+249,You Don't Know How Lucky You Are,Keaton Henson,ambient,sad,0.314,96,0.107,0.389,0.772,Dear,50,7L4w1yQnlhqo4oUjpW53wz,spotify-tracks-hf
+250,Unhinged,Mike Lazarev,ambient,sad,0.035,71,0.192,0.494,0.985,Unhinged,54,0F78AWB4E53yOvldzqhgBK,spotify-tracks-hf
+251,Juliet's Dream,"Abel Korzeniowski, Jasper Randall, The Hollywood Studio Symphony",ambient,sad,0.099,143,0.158,0.505,0.941,Romeo and Juliet,44,1CpscCIJ2E5EtpMThnxkds,spotify-tracks-hf
+252,Every Little Thing She Does Is Magic,Sleeping At Last,ambient,melancholic,0.314,133,0.421,0.613,0.975,"Covers, Vol. 1",55,3cBtANnJGopPaRMXCl3mV7,spotify-tracks-hf
+253,Gone,"SwitchOTR, John Newman",chill,happy,0.686,142,0.52,0.706,0.085,Gone,54,3jTk3JX7wN0CO60welQgnJ,spotify-tracks-hf
+254,I'll Bite Your Soul,"SHRK, Shiloh Dynasty",chill,sad,0.37,102,0.18,0.786,0.768,Lost in Love,69,71qKWIBggc7poNXclWN53M,spotify-tracks-hf
+255,London Scammer - Remastered,Tankz,chill,melancholic,0.333,140,0.262,0.917,0.256,London Scammer (Remastered),58,3VuC6fpot8GhWsVdhXgazv,spotify-tracks-hf
+256,i looked into your eyes,Sky McCreery,chill,melancholic,0.099,134,0.3,0.475,0.853,i looked into your eyes,68,0CwLue2qwkPcQpovNGNtVx,spotify-tracks-hf
+257,"Dear Depression,",Presence,chill,sad,0.549,182,0.167,0.476,0.81,"Dear Depression,",57,30k0wGukDZlauyrRU4hTc2,spotify-tracks-hf
+258,Grow Old with Me,Tom Odell,chill,melancholic,0.591,146,0.39,0.505,0.799,Long Way Down (Deluxe),59,6xjxMWGsprmtUVMDaMhgH0,spotify-tracks-hf
+259,I Like That,Adam Turley,chill,relaxed,0.458,140,0.516,0.72,0.237,COLOR,53,3dZMaAfbzQP6sPZaxon4I9,spotify-tracks-hf
+260,Smile For Me,Gentle Bones,chill,intense,0.645,106,0.254,0.665,0.144,Smile For Me,51,49z2kxEp9AzpDY66YuD1jJ,spotify-tracks-hf
+261,Drown,Weston Estate,chill,relaxed,0.554,120,0.53,0.644,0.08,Drown,57,0vpy9NZpTbjCH0HNnAhCTt,spotify-tracks-hf
+262,My All,Larissa Lambert,chill,sad,0.265,108,0.225,0.573,0.71,My All,64,35CoDqsVF0P2w8Lgir7wrs,spotify-tracks-hf
+263,With U,"SwuM, Idealism",chill,sad,0.309,90,0.185,0.469,0.863,With U,55,0rNpm25xLsckCS9JPAgpwP,spotify-tracks-hf
+264,stranger to me,Zachary Knowles,chill,relaxed,0.469,118,0.7,0.772,0.744,tendency to be a loner,54,7Jrt2Ipd2qSOKtytwCGEAU,spotify-tracks-hf
+265,Bad Memories (feat. Elley Duhé & FAST BOY),"MEDUZA, James Carter, Elley Duhé, FAST BOY",house,happy,0.767,124,0.662,0.607,0.118,Bad Memories (feat. Elley Duhé & FAST BOY),85,3rb0tMq42WfggucPm0HHkA,spotify-tracks-hf
+266,Roses,SAINt JHN,house,melancholic,0.5,102,0.28,0.782,0.342,Collection One,62,3mRlFZHUyvJbPTlkzg4LyJ,spotify-tracks-hf
+267,Over Now (with The Weeknd),"Calvin Harris, The Weeknd",house,happy,0.884,178,0.679,0.612,0.076,Over Now (with The Weeknd),71,58AGoOGbwsQMhBbH0eFLRR,spotify-tracks-hf
+268,Ten Feet Tall,"Afrojack, Wrabel",house,intense,0.861,127,0.346,0.523,0.034,Forget The World (Deluxe),63,2ldAdghnrO34HPcZ0IWfTu,spotify-tracks-hf
+269,Landscape,Jarico,house,intense,0.647,100,0.178,0.826,0.359,Landscape,46,7hTyEBBgIPW8GyMT37KPxl,spotify-tracks-hf
+270,Dark Light,"VOLB3X, BeatsHoundz",house,intense,0.714,105,0.035,0.665,0.004,GVNG,52,0bv0SxeOUTgJHpugDwtYFl,spotify-tracks-hf
+271,Cruel (feat. ZAYN),"Snakehips, ZAYN",house,intense,0.879,110,0.318,0.603,0.018,Cruel (feat. ZAYN),58,0B2RttXEiyXsMeQ7mMP3EI,spotify-tracks-hf
+272,Love Me Like a Friend,Fly By Midnight,house,happy,0.764,125,0.962,0.713,0.072,Happy About Everything Else...,65,0110a0AM2nOV8yYa9u6kjQ,spotify-tracks-hf
+273,On My Way,"Alan Walker, Sabrina Carpenter, Farruko",house,intense,0.689,170,0.297,0.509,0.021,On My Way,74,4n7jnSxVLd8QioibtTDBDq,spotify-tracks-hf
+274,Wish You Were Here,"Vicetone, Willim, 黄霄雲",house,relaxed,0.563,109,0.571,0.675,0.7,Wish You Were Here,57,3h6M4K3mBtb2ywoYhG7954,spotify-tracks-hf
+275,Run Free - 8D TikTok Edit,"Deep Chills, IVIE",house,happy,0.604,100,0.515,0.617,0.049,Run Free (8D TikTok Edit),52,2UuecWcpFpSngpTvm00eQj,spotify-tracks-hf
+276,Rockabye (feat. Sean Paul & Anne-Marie),"Clean Bandit, Sean Paul, Anne-Marie",house,happy,0.759,102,0.765,0.724,0.412,Speak Your Mind (Deluxe),56,3fvY2U1AzW0diYF0hnBbKt,spotify-tracks-hf
+277,The Day Is My Enemy,The Prodigy,techno,happy,0.959,106,0.519,0.536,0.002,The Day Is My Enemy,40,5ktiAN5ZmNa3yO5ZuXnFJ2,spotify-tracks-hf
+278,Tokai,Taeko Onuki,techno,happy,0.753,98,0.761,0.616,0.543,SUNSHOWER,52,1SmwJJ8YVgiXtyE6elhUx1,spotify-tracks-hf
+279,Evacuate The Dancefloor,Cascada,techno,happy,0.702,127,0.898,0.762,0.017,Evacuate The Dancefloor,63,0jDWRUbxSn8zQlwFbeLHwo,spotify-tracks-hf
+280,Funny,"Zedd, Jasmine Thompson",techno,intense,0.66,100,0.355,0.664,0.512,Funny,65,4FYbo4yQzu3hGkj2Ix4ucW,spotify-tracks-hf
+281,Paradise Circus,Hozho,techno,intense,0.72,127,0.206,0.747,0.008,Troubles in Paradise,41,1OKlHeAw64sMRBnLqPcccY,spotify-tracks-hf
+282,Schwarz,Boris Brejcha,techno,sad,0.556,125,0.225,0.807,0.008,Club Vibes Part 03,48,5llUt0qTSnz36eWev5Vh72,spotify-tracks-hf
+283,Follow,Amelie Lens,techno,angry,0.908,128,0.134,0.725,0.037,Stay With Me,51,5UsfWcP6SThHlZ4oAgx7ge,spotify-tracks-hf
+284,Tankwa Town,Oliver Koletzki,techno,sad,0.401,100,0.054,0.736,0.102,The Arc of Tension,50,55kDJdv7pymmG4URJlVTYR,spotify-tracks-hf
+285,Everytime We Touch,Cascada,techno,intense,0.976,142,0.493,0.633,0.003,Platinum,62,5aEqcblO0Z6JloFJXtxyhe,spotify-tracks-hf
+286,Future Dust - Original Mix,Enrico Sangiuliano,techno,angry,0.915,132,0.093,0.788,0.001,Silence EP,59,3dwDBE5AMcHLxemIAEp2xb,spotify-tracks-hf
+287,Wonders,"Neelix, Ghost Rider, The Gardener & The Tree",techno,intense,0.616,140,0.316,0.492,0.167,Wonders,62,6d1AuFOL1YBzLcruapNbZV,spotify-tracks-hf
+288,Parachute,Paul Kalkbrenner,techno,melancholic,0.506,127,0.252,0.646,0.319,Parachute,58,3NgAAoUZPkxL5mpvUI7Rl5,spotify-tracks-hf
+289,Berraqueo,Yiordano Ignacio,reggae,happy,0.655,96,0.885,0.9,0.346,El Nene Con el Flow,46,71HcKKNwvQ8Jv6lbBEi4oO,spotify-tracks-hf
+290,Respostas,Maneva,reggae,relaxed,0.525,130,0.686,0.786,0.14,Mundo Novo,48,6LUNGq8PjLgalGTddriqij,spotify-tracks-hf
+291,Un Ratito,Bad Bunny,reggae,sad,0.546,93,0.222,0.787,0.305,Un Verano Sin Ti,87,5CzixCxDkRXX9mScCmah8O,spotify-tracks-hf
+292,Não Ha Amor Igual - Ao Vivo,MORADA,reggae,intense,0.846,145,0.369,0.411,0.094,Ele É (Ao Vivo),44,3CTil5XNg4xeZqpgZbebfe,spotify-tracks-hf
+293,Normal,Feid,reggae,relaxed,0.557,170,0.594,0.712,0.04,Normal,85,2z9YkcLojiOE7Eu2p9lPZR,spotify-tracks-hf
+294,Blusinha Branca,Papas Da Língua,reggae,happy,0.899,170,0.779,0.601,0.213,Papas Da Língua,49,1VHjjOOllU87VRa8B2EWiX,spotify-tracks-hf
+295,No Me Ame,"Rvssian, Anuel AA, Juice WRLD",reggae,intense,0.766,160,0.28,0.68,0.041,No Me Ame,63,2AuWgceaQyfMoI3EGavwGb,spotify-tracks-hf
+296,Fé Menina,Dazaranha,reggae,relaxed,0.588,163,0.797,0.578,0.332,Daza,45,4AGvLxSCLfHOjndRFUXPGd,spotify-tracks-hf
+297,Rompe,Daddy Yankee,reggae,happy,0.858,176,0.533,0.696,0.073,Barrio Fino En Directo,74,4Xtlw8oXkIOvzV7crUBKeZ,spotify-tracks-hf
+298,Lo Tengo,"Dayme y El High, Cazzu, Aleman, Lito Kirino",reggae,relaxed,0.488,137,0.577,0.818,0.681,Lo Tengo,43,4SuBaJVPJ0ttWJBoKwswWX,spotify-tracks-hf
+299,Eres Tu,Chapa C,reggae,relaxed,0.598,174,0.962,0.755,0.33,100% Reggaeton Cubano,44,4HnMrFXdsJYVuXRmPCevxH,spotify-tracks-hf
+300,Feliz Cumpleaños Ferxxo,Feid,reggae,relaxed,0.55,95,0.566,0.87,0.102,Feliz Cumpleaños Ferxxo,87,3kUq4sBcmxhnOtNysZ9yrp,spotify-tracks-hf

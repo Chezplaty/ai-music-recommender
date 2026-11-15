@@ -108,5 +108,5 @@ def recommend_songs(user_prefs: Dict, songs: List[Dict], k: int = 5) -> List[Tup
         explanation = "\n".join(reasons)
         scored.append((song, score, explanation))
 
-    scored.sort(key=lambda rec: abs(1.0 - rec[1]))
+    scored.sort(key=lambda rec: rec[1], reverse=True)
     return scored[:k]
