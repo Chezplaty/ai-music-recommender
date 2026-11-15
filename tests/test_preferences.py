@@ -15,7 +15,7 @@ from preferences import (
 def make_extracted(**overrides) -> ExtractedPreferences:
     data = dict(
         genres=["pop"], moods=["happy"], target_energy=0.7, target_valence=0.6,
-        likes_acoustic=False, num_songs=10, reference_artists=[], exclude_artists=[],
+        target_acousticness=0.3, num_songs=10, reference_artists=[], exclude_artists=[],
         unmatched_requests=[],
     )
     data.update(overrides)
@@ -54,10 +54,13 @@ def test_genre_case_and_whitespace_are_normalized(vocab):
     assert parsed.profile.genres == ["hip hop"]  # normalized and deduped
 
 
-def test_energy_and_valence_are_clamped(vocab):
-    parsed = validate_preferences(make_extracted(target_energy=1.7, target_valence=-0.3), vocab)
+def test_energy_valence_and_acousticness_are_clamped(vocab):
+    parsed = validate_preferences(
+        make_extracted(target_energy=1.7, target_valence=-0.3, target_acousticness=2.0), vocab
+    )
     assert parsed.profile.target_energy == 1.0
     assert parsed.profile.target_valence == 0.0
+    assert parsed.profile.target_acousticness == 1.0
 
 
 @pytest.mark.parametrize("asked, expected", [(0, DEFAULT_NUM_SONGS), (-5, DEFAULT_NUM_SONGS), (5, 5), (500, MAX_NUM_SONGS)])

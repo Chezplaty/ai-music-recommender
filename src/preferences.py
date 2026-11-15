@@ -27,6 +27,11 @@ from recommender import Song, UserProfile
 logger = logging.getLogger(__name__)
 
 DEFAULT_MODEL = "gemini-3.8-flash"  # override with the GEMINI_MODEL env var
+# Filling in a JSON form doesn't need deep reasoning; default thinking made a
+# trivial request take ~25s. Override with GEMINI_THINKING (low/medium/high;
+# gemini-3.8-flash rejects "minimal" with a 400 error).
+DEFAULT_THINKING_LEVEL = "low"
+REQUEST_TIMEOUT_MS = 60_000  # SDK default is no timeout, which looks like a hang
 DEFAULT_NUM_SONGS = 10
 MAX_NUM_SONGS = 20
 
@@ -50,7 +55,11 @@ class ExtractedPreferences(BaseModel):
     moods: List[str] = Field(description="Moods from the allowed list that fit the request. Empty if none fit.")
     target_energy: float = Field(description="0.0 = very calm, 1.0 = very intense. Use 0.5 if not implied.")
     target_valence: float = Field(description="0.0 = dark/sad, 1.0 = bright/happy. Use 0.5 if not implied.")
-    likes_acoustic: bool = Field(description="True only if the user wants acoustic/unplugged/organic sound.")
+    target_acousticness: float = Field(
+        description="0.0 = electronic/heavily produced, 1.0 = fully acoustic/unplugged. "
+        "Use 0.5 if not mentioned. Scale with intensity: 'not too acoustic' ~0.3, "
+        "'no acoustic at all' ~0.05, 'a bit acoustic' ~0.65, 'only acoustic' ~0.95."
+    )
     num_songs: int = Field(description=f"How many songs the user asked for. Use {DEFAULT_NUM_SONGS} if not stated.")
     reference_artists: List[str] = Field(description="Artists the user mentions as examples of what they like.")
     exclude_artists: List[str] = Field(description="Artists the user explicitly does NOT want.")
@@ -136,7 +145,7 @@ def validate_preferences(extracted: ExtractedPreferences, vocab: dict) -> Parsed
             moods=moods,
             target_energy=_clamp(extracted.target_energy),
             target_valence=_clamp(extracted.target_valence),
-            likes_acoustic=bool(extracted.likes_acoustic),
+            target_acousticness=_clamp(extracted.target_acousticness),
         ),
         num_songs=min(num_songs, MAX_NUM_SONGS),
         reference_artists=_dedupe([a.strip() for a in extracted.reference_artists]),
@@ -149,10 +158,11 @@ def validate_preferences(extracted: ExtractedPreferences, vocab: dict) -> Parsed
 def make_client():
     """Create a Gemini client. Reads GEMINI_API_KEY from the environment (or .env)."""
     from google import genai  # imported here so tests don't need the SDK configured
+    from google.genai import types
 
     if not os.environ.get("GEMINI_API_KEY"):
         raise ExtractionError("GEMINI_API_KEY is not set. Add it to a .env file in the project root.")
-    return genai.Client()
+    return genai.Client(http_options=types.HttpOptions(timeout=REQUEST_TIMEOUT_MS))
 
 
 def extract_preferences(query: str, catalog: List[Song], client=None, model: Optional[str] = None) -> ParsedRequest:
@@ -169,16 +179,22 @@ def extract_preferences(query: str, catalog: List[Song], client=None, model: Opt
     model = model or os.environ.get("GEMINI_MODEL", DEFAULT_MODEL)
     vocab = build_vocabulary(catalog)
 
-    response = client.models.generate_content(
-        model=model,
-        contents=query,
-        config=types.GenerateContentConfig(
-            system_instruction=build_system_prompt(vocab),
-            response_mime_type="application/json",
-            response_schema=ExtractedPreferences,
-            temperature=0.0,  # same request -> same profile, as far as the model allows
-        ),
-    )
+    thinking_level = os.environ.get("GEMINI_THINKING", DEFAULT_THINKING_LEVEL).upper()
+
+    try:
+        response = client.models.generate_content(
+            model=model,
+            contents=query,
+            config=types.GenerateContentConfig(
+                system_instruction=build_system_prompt(vocab),
+                response_mime_type="application/json",
+                response_schema=ExtractedPreferences,
+                temperature=0.0,  # same request -> same profile, as far as the model allows
+                thinking_config=types.ThinkingConfig(thinking_level=thinking_level),
+            ),
+        )
+    except Exception as e:  # timeouts, auth errors, unknown model, network...
+        raise ExtractionError(f"Gemini request failed ({type(e).__name__}): {e}") from e
 
     extracted = response.parsed
     if not isinstance(extracted, ExtractedPreferences):

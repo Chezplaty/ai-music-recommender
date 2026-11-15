@@ -34,7 +34,9 @@ class UserProfile:
     moods: List[str]
     target_energy: float
     target_valence: float = 0.5
-    likes_acoustic: bool = False
+    # 0.0 = fully electronic/produced, 1.0 = fully acoustic. 0.5 = no preference.
+    # (Was a bool `likes_acoustic`, which could only mean 0.0 or 1.0.)
+    target_acousticness: float = 0.5
 
     def to_prefs(self) -> Dict:
         """Convert to the dict format used by score_song() / recommend_songs()."""
@@ -43,7 +45,7 @@ class UserProfile:
             "mood": self.moods,
             "energy": self.target_energy,
             "valence": self.target_valence,
-            "likes_acoustic": self.likes_acoustic,
+            "acousticness": self.target_acousticness,
         }
 
 
@@ -96,7 +98,11 @@ def score_song(user_prefs: Dict, song: Dict) -> Tuple[float, List[str]]:
 
     target_energy = user_prefs["energy"]
     target_valence = user_prefs.get("valence", 0.5)
-    target_acousticness = 1.0 if user_prefs.get("likes_acoustic", False) else 0.0
+    # Prefer the numeric target; fall back to the legacy bool (used by main.py's demo profiles).
+    if "acousticness" in user_prefs:
+        target_acousticness = user_prefs["acousticness"]
+    else:
+        target_acousticness = 1.0 if user_prefs.get("likes_acoustic", False) else 0.0
 
     energy_sim = 1 - abs(target_energy - song["energy"])
     valence_sim = 1 - abs(target_valence - song["valence"])

@@ -4,7 +4,7 @@ import pytest
 
 from recommender import Song, UserProfile, Recommender, score_song, recommend_songs
 
-POP_FAN = UserProfile(genres=["pop"], moods=["happy"], target_energy=0.8, likes_acoustic=False)
+POP_FAN = UserProfile(genres=["pop"], moods=["happy"], target_energy=0.8, target_acousticness=0.0)
 
 
 def make_song(id, genre, mood, energy, valence=0.5, acousticness=0.5) -> Song:
@@ -64,7 +64,7 @@ def test_explain_recommendation_cites_matching_features():
 # --- score_song --------------------------------------------------------------
 
 def test_perfect_match_scores_one():
-    user = UserProfile(genres=["pop"], moods=["happy"], target_energy=0.8, target_valence=0.9, likes_acoustic=False)
+    user = UserProfile(genres=["pop"], moods=["happy"], target_energy=0.8, target_valence=0.9, target_acousticness=0.0)
     song = make_song(1, "pop", "happy", energy=0.8, valence=0.9, acousticness=0.0)
     score, _ = score_song(user.to_prefs(), asdict(song))
     assert score == pytest.approx(1.0)
@@ -85,10 +85,28 @@ def test_any_listed_genre_counts_as_match():
     assert score_pop == pytest.approx(score_rock)
 
 
+def test_mid_acousticness_target_prefers_mid_acoustic_song():
+    user = UserProfile(genres=["pop"], moods=["happy"], target_energy=0.5, target_acousticness=0.3)
+    near = make_song(1, "pop", "happy", energy=0.5, acousticness=0.3)
+    electronic = make_song(2, "pop", "happy", energy=0.5, acousticness=0.0)
+    unplugged = make_song(3, "pop", "happy", energy=0.5, acousticness=1.0)
+    ranked = Recommender([unplugged, electronic, near]).recommend(user, k=3)
+    assert [s.id for s in ranked] == [1, 2, 3]
+
+
+@pytest.mark.parametrize("likes_acoustic, expected_target", [(True, 1.0), (False, 0.0)])
+def test_legacy_likes_acoustic_dict_still_works(likes_acoustic, expected_target):
+    # main.py's demo profiles still use the old bool format
+    prefs = {"genre": ["pop"], "mood": ["happy"], "energy": 0.5, "likes_acoustic": likes_acoustic}
+    song = make_song(1, "pop", "happy", energy=0.5, acousticness=expected_target)
+    _, reasons = score_song(prefs, asdict(song))
+    assert "Acousticness similarity 1.00" in reasons[-1]
+
+
 @pytest.mark.parametrize("energy", [0.0, 0.5, 1.0])
-@pytest.mark.parametrize("acoustic", [True, False])
+@pytest.mark.parametrize("acoustic", [0.0, 0.5, 1.0])
 def test_scores_stay_between_zero_and_one(catalog, energy, acoustic):
-    user = UserProfile(genres=["pop"], moods=["happy"], target_energy=energy, likes_acoustic=acoustic)
+    user = UserProfile(genres=["pop"], moods=["happy"], target_energy=energy, target_acousticness=acoustic)
     for song in catalog:
         score, _ = score_song(user.to_prefs(), asdict(song))
         assert 0.0 <= score <= 1.0

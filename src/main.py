@@ -11,6 +11,7 @@ You will implement the functions in recommender.py:
 
 import logging
 import sys
+import time
 
 from recommender import load_songs, recommend_songs, load_catalog, Recommender
 
@@ -23,10 +24,13 @@ def run_natural_language(query: str) -> None:
     load_dotenv()  # reads GEMINI_API_KEY from .env
     catalog = load_catalog("data/catalog.csv")
 
+    print("Asking Gemini to interpret your request...", flush=True)
+    start = time.time()
     try:
         request = extract_preferences(query, catalog)
     except ExtractionError as e:
         sys.exit(f"Could not understand the request: {e}")
+    print(f"(took {time.time() - start:.1f}s)")
 
     p = request.profile
     print(f"\nRequest: {query}")
@@ -35,7 +39,7 @@ def run_natural_language(query: str) -> None:
     print(f"Moods:           {p.moods or '(any)'}")
     print(f"Target energy:   {p.target_energy:.2f}")
     print(f"Target valence:  {p.target_valence:.2f}")
-    print(f"Likes acoustic:  {p.likes_acoustic}")
+    print(f"Acousticness:    {p.target_acousticness:.2f}")
     print(f"Songs requested: {request.num_songs}")
     if request.reference_artists:
         print(f"Like artists:    {request.reference_artists}")
