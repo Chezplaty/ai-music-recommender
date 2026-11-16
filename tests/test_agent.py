@@ -185,3 +185,13 @@ def test_any_genre_request_is_not_judged_as_weak(catalog, retriever):
     result = run(req, catalog, retriever)
     quality = next(c for c in result.evaluation.checks if c.name == "score_quality")
     assert quality.passed
+
+
+def test_iter_agent_streams_steps_then_the_result(catalog, retriever):
+    from agent.workflow import iter_agent
+    events = list(iter_agent("test", catalog, retriever, request=make_request(), ai_review=False))
+    kinds = [k for k, _ in events]
+    assert kinds[-1] == "result" and kinds.count("result") == 1
+    steps = [entries[0]["step"] for k, entries in events if k == "step" and entries]
+    assert steps[:2] == ["analyze", "plan"] and steps[-1] == "explain"
+    assert events[-1][1].playlist and events[-1][1].chosen_attempt >= 1

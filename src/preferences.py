@@ -225,16 +225,23 @@ def generate_structured(contents: str, system_prompt: str, schema, client=None, 
         raise error_cls(f"Could not parse LLM response: {e}") from e
 
 
-def extract_preferences(query: str, catalog: List[Song], client=None, model: Optional[str] = None) -> ParsedRequest:
+def extract_preferences(query: str, catalog: List[Song], client=None, model: Optional[str] = None,
+                        listener_profile: Optional[str] = None) -> ParsedRequest:
     """Natural-language request -> validated ParsedRequest.
 
-    `client` can be injected (tests pass a fake), otherwise a real Gemini client is created.
+    `listener_profile` (optional) describes the user's saved tastes; Gemini uses it to
+    fill in whatever the request leaves open. `client` can be injected (tests pass a
+    fake), otherwise a real Gemini client is created.
     """
     if not query or not query.strip():
         raise ExtractionError("Empty request.")
 
     vocab = build_vocabulary(catalog)
-    extracted = generate_structured(query, build_system_prompt(vocab), ExtractedPreferences,
+    contents = query
+    if listener_profile:
+        contents = (f"LISTENER PROFILE (their usual taste; use it for anything the request leaves open, "
+                    f"but the request wins when they conflict):\n{listener_profile}\n\nREQUEST: {query}")
+    extracted = generate_structured(contents, build_system_prompt(vocab), ExtractedPreferences,
                                     client=client, model=model, error_cls=ExtractionError)
     parsed = validate_preferences(extracted, vocab)
     logger.info("Extracted preferences for %r: %s", query, parsed.raw_llm_output)

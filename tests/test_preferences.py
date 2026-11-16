@@ -117,3 +117,17 @@ def test_missing_api_key_gives_clear_error(catalog, monkeypatch):
     monkeypatch.delenv("GEMINI_API_KEY", raising=False)
     with pytest.raises(ExtractionError, match="GEMINI_API_KEY"):
         extract_preferences("anything", catalog)
+
+
+def test_listener_profile_is_sent_with_the_request(catalog):
+    client = FakeClient(parsed=make_extracted())
+    extract_preferences("something for the gym", catalog, client=client, model="m",
+                        listener_profile="favorite genres: metal")
+    contents = client.calls[0]["contents"]
+    assert "favorite genres: metal" in contents and "REQUEST: something for the gym" in contents
+
+
+def test_no_profile_sends_the_request_as_is(catalog):
+    client = FakeClient(parsed=make_extracted())
+    extract_preferences("something for the gym", catalog, client=client, model="m")
+    assert client.calls[0]["contents"] == "something for the gym"

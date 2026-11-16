@@ -58,11 +58,19 @@ If songs do not exactly match the genre, the max similarity a song can be is 0.7
 pip install -r requirements.txt
 ```
 
-3. Run the app:
+3. Add your Gemini key: copy `.env.example` to `.env` and fill in `GEMINI_API_KEY`.
+
+4. Run the web app:
 
 ```bash
-python -m src.main
+streamlit run app.py
 ```
+
+Create an account, set up your taste profile, then describe what you want to hear.
+"Quick mix from my profile" with the AI critic switched off works without Gemini.
+
+Or use the command line: `python src/main.py "chill r&b for studying"`
+(`--mode agent|agent-rules|rag|baseline`).
 
 ### Running Tests
 

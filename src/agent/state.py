@@ -107,6 +107,7 @@ class AgentResult:
     notes: List[str]         # limitations to tell the user about
     trace: List[Dict[str, str]]
     summary: str = ""        # one-paragraph description of the whole playlist
+    chosen_attempt: int = 0  # number of the attempt whose playlist was returned
 
 
 class AgentState(TypedDict, total=False):

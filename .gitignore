@@ -19,3 +19,6 @@ venv/
 
 # ChromaDB vector index (rebuilt automatically from data/)
 .chroma/
+
+# Local user accounts for the Streamlit app (hashed passwords + profiles)
+app_data/

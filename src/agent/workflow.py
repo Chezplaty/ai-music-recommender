@@ -24,7 +24,7 @@ UI can show exactly what the agent did and why.
 """
 
 import logging
-from typing import Callable, List, Optional
+from typing import Callable, Iterator, List, Optional, Tuple
 
 from langgraph.graph import END, START, StateGraph
 
@@ -197,6 +197,7 @@ def build_agent(catalog: List[Song], retriever: MusicRetriever, extractor: Optio
                   f"{len(best.evaluation.checks) - len(best.evaluation.failed)}/{len(best.evaluation.checks)} "
                   f"rule checks passed)")
         result = AgentResult(request=state["request"], playlist=playlist, evaluation=best.evaluation,
+                             chosen_attempt=best.number,
                              attempts=attempts, notes=notes,
                              trace=state["trace"] + [{"step": "finalize", "detail": detail}])
         return {"result": result, "final_strategy": best.strategy,
@@ -231,18 +232,37 @@ def build_agent(catalog: List[Song], retriever: MusicRetriever, extractor: Optio
     return graph.compile()
 
 
-def run_agent(query: str, catalog: List[Song], retriever: MusicRetriever,
-              extractor: Optional[Callable] = None, request: Optional[ParsedRequest] = None,
-              reviewer: Optional[Callable] = None, ai_review: bool = True) -> AgentResult:
-    """Run the whole workflow and return the final result (with its full trace).
+def iter_agent(query: str, catalog: List[Song], retriever: MusicRetriever,
+               extractor: Optional[Callable] = None, request: Optional[ParsedRequest] = None,
+               reviewer: Optional[Callable] = None, ai_review: bool = True) -> Iterator[Tuple[str, object]]:
+    """Run the workflow step by step, for live progress in a UI.
 
+    Yields ("step", trace_entries) after each node finishes, then ("result", AgentResult) last.
     ai_review=True with no `reviewer` uses the Gemini critic; False runs rule checks only.
     """
     if ai_review and reviewer is None:
         reviewer = GeminiReviewer()
     agent = build_agent(catalog, retriever, extractor, reviewer if ai_review else None)
-    state = agent.invoke({"query": query, "request": request, "attempts": [], "trace": []})
-    result = state["result"]
-    for entry in result.trace:
-        logger.info("[%s] %s", entry["step"], entry["detail"])
+    result = None
+    for update in agent.stream({"query": query, "request": request, "attempts": [], "trace": []},
+                               stream_mode="updates"):
+        for node, changes in update.items():
+            changes = changes or {}
+            entries = changes.get("trace", [])
+            for entry in entries:
+                logger.info("[%s] %s", entry["step"], entry["detail"])
+            yield "step", entries
+            if node == "explain":
+                result = changes["result"]
+    yield "result", result
+
+
+def run_agent(query: str, catalog: List[Song], retriever: MusicRetriever,
+              extractor: Optional[Callable] = None, request: Optional[ParsedRequest] = None,
+              reviewer: Optional[Callable] = None, ai_review: bool = True) -> AgentResult:
+    """Run the whole workflow and return the final result (with its full trace)."""
+    result = None
+    for kind, payload in iter_agent(query, catalog, retriever, extractor, request, reviewer, ai_review):
+        if kind == "result":
+            result = payload
     return result
