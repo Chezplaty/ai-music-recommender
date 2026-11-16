@@ -33,19 +33,30 @@ class MusicRetriever:
         self.embedder = embedder
         self.by_id = {s.id: s for s in catalog}
 
-    def search(self, query: str, n_results: int = 30, exclude_artists: Iterable[str] = ()) -> List[RetrievedSong]:
-        """Top `n_results` catalog songs whose documents are semantically closest to `query`."""
+    def search(self, query: str, n_results: int = 30, exclude_artists: Iterable[str] = (),
+               genres: Optional[Iterable[str]] = None) -> List[RetrievedSong]:
+        """Top `n_results` catalog songs whose documents are semantically closest to `query`.
+
+        `genres` restricts the search to those catalog genres (used by the agent's
+        genre-targeted retrieval when a plain search misses the requested genres).
+        """
         if not query or not query.strip():
             return []
         exclude_artists = list(exclude_artists)
 
-        where = None
+        # Filters run inside Chroma, so they don't eat into n_results.
+        conditions = []
         if exclude_artists:
-            # Filter inside Chroma so exclusions don't eat into n_results.
             allowed = [s.id for s in self.by_id.values() if not is_excluded(s, exclude_artists)]
             if not allowed:
                 return []
-            where = {"song_id": {"$in": allowed}}
+            conditions.append({"song_id": {"$in": allowed}})
+        if genres is not None:
+            genres = list(genres)
+            if not genres:
+                return []
+            conditions.append({"genre": {"$in": genres}})
+        where = None if not conditions else conditions[0] if len(conditions) == 1 else {"$and": conditions}
 
         n = min(n_results, self.collection.count())
         if n <= 0:

@@ -16,31 +16,10 @@ import time
 from recommender import load_songs, recommend_songs, load_catalog
 
 
-def run_natural_language(query: str, use_rag: bool = True) -> None:
-    """python src/main.py "chill music for studying, 5 songs"
-    python src/main.py --no-rag "..."   (original recommender: score the whole catalog)
-    """
-    from dotenv import load_dotenv
-    from preferences import extract_preferences, ExtractionError
-    from rag.pipeline import recommend
+MODES = ("agent", "rag", "baseline")
 
-    load_dotenv()  # reads GEMINI_API_KEY from .env
-    catalog = load_catalog("data/catalog.csv")
 
-    retriever = None
-    if use_rag:
-        from rag.retrieval import build_retriever
-        print("Loading music knowledge base (first run builds the index)...", flush=True)
-        retriever = build_retriever(catalog)
-
-    print("Asking Gemini to interpret your request...", flush=True)
-    start = time.time()
-    try:
-        request = extract_preferences(query, catalog)
-    except ExtractionError as e:
-        sys.exit(f"Could not understand the request: {e}")
-    print(f"(took {time.time() - start:.1f}s)")
-
+def print_understood(query, request) -> None:
     p = request.profile
     print(f"\nRequest: {query}")
     print("\n--- What the AI understood ---")
@@ -54,9 +33,72 @@ def run_natural_language(query: str, use_rag: bool = True) -> None:
         print(f"Like artists:    {request.reference_artists}")
     if request.exclude_artists:
         print(f"Exclude artists: {request.exclude_artists}")
+    if request.discover_new_artists:
+        print("Discovery:       wants new artists")
     if request.unmatched:
         print(f"Not in catalog:  {request.unmatched}")
 
+
+def print_agent_result(result) -> None:
+    current = None
+    print("\n--- What the agent did ---")
+    for entry in result.trace:
+        if entry["step"] in ("analyze",):
+            continue
+        if entry["step"] != current:
+            current = entry["step"]
+            print(f"[{current}]")
+        print(f"   {entry['detail']}")
+
+    print(f"\n--- Playlist ({len(result.playlist)} songs) ---")
+    for i, item in enumerate(result.playlist, 1):
+        s = item.song
+        match = f", match {item.similarity:.2f}" if item.similarity is not None else ""
+        print(f"{i:2}. {s.title} - {s.artist}  [{s.genre}, {s.mood}]")
+        print(f"      score {item.score:.2f} ({item.confidence} confidence{match}): "
+              + "; ".join(item.reasons[:2]))
+    if result.notes:
+        print("\n--- Notes ---")
+        for note in result.notes:
+            print(f" * {note}")
+
+
+def run_natural_language(query: str, mode: str = "agent") -> None:
+    """python src/main.py "chill music for studying, 5 songs"         (agent, default)
+    python src/main.py --mode rag "..."        (retrieve, then rank once; no critic)
+    python src/main.py --mode baseline "..."   (original recommender: score the whole catalog)
+    """
+    from dotenv import load_dotenv
+    from preferences import extract_preferences, ExtractionError
+
+    load_dotenv()  # reads GEMINI_API_KEY from .env
+    catalog = load_catalog("data/catalog.csv")
+
+    retriever = None
+    if mode in ("agent", "rag"):
+        from rag.retrieval import build_retriever
+        print("Loading music knowledge base (first run builds the index)...", flush=True)
+        retriever = build_retriever(catalog)
+
+    print("Asking Gemini to interpret your request...", flush=True)
+    start = time.time()
+    try:
+        if mode == "agent":
+            from agent.workflow import run_agent
+            result = run_agent(query, catalog, retriever)
+            request = result.request
+        else:
+            request = extract_preferences(query, catalog)
+    except ExtractionError as e:
+        sys.exit(f"Could not understand the request: {e}")
+    print(f"(took {time.time() - start:.1f}s)")
+
+    print_understood(query, request)
+    if mode == "agent":
+        print_agent_result(result)
+        return
+
+    from rag.pipeline import recommend
     playlist = recommend(request, catalog, retriever=retriever, query=query)
 
     if playlist.mode == "rag":
@@ -126,9 +168,14 @@ def main() -> None:
 if __name__ == "__main__":
     logging.basicConfig(level=logging.WARNING, format="%(levelname)s %(name)s: %(message)s")
     args = sys.argv[1:]
-    use_rag = "--no-rag" not in args
-    args = [a for a in args if a != "--no-rag"]
+    mode = "agent"
+    if "--mode" in args:
+        i = args.index("--mode")
+        if i + 1 >= len(args) or args[i + 1] not in MODES:
+            sys.exit(f"--mode must be one of {', '.join(MODES)}")
+        mode = args[i + 1]
+        del args[i:i + 2]
     if args:
-        run_natural_language(" ".join(args), use_rag=use_rag)
+        run_natural_language(" ".join(args), mode=mode)
     else:
         main()  # original demo with hardcoded profiles

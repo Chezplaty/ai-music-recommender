@@ -65,6 +65,10 @@ class ExtractedPreferences(BaseModel):
     num_songs: int = Field(description=f"How many songs the user asked for. Use {DEFAULT_NUM_SONGS} if not stated.")
     reference_artists: List[str] = Field(description="Artists the user mentions as examples of what they like.")
     exclude_artists: List[str] = Field(description="Artists the user explicitly does NOT want.")
+    discover_new_artists: bool = Field(
+        description="True if the user wants to discover new or different artists (so the reference "
+        "artists themselves should not appear in the playlist). False otherwise."
+    )
     unmatched_requests: List[str] = Field(
         description="Genres, moods, or other wishes the user mentioned that are NOT in the allowed lists."
     )
@@ -84,6 +88,7 @@ class ParsedRequest:
     num_songs: int
     reference_artists: List[str] = field(default_factory=list)
     exclude_artists: List[str] = field(default_factory=list)
+    discover_new_artists: bool = False  # True -> agent leaves reference artists out of the playlist
     unmatched: List[str] = field(default_factory=list)  # things we can't satisfy from the catalog
     search_description: str = ""  # sonic rewrite of the request, used as the RAG search query
     raw_llm_output: dict = field(default_factory=dict)  # kept for transparency / debugging
@@ -160,6 +165,7 @@ def validate_preferences(extracted: ExtractedPreferences, vocab: dict) -> Parsed
         num_songs=min(num_songs, MAX_NUM_SONGS),
         reference_artists=_dedupe([a.strip() for a in extracted.reference_artists]),
         exclude_artists=_dedupe([a.strip() for a in extracted.exclude_artists]),
+        discover_new_artists=bool(extracted.discover_new_artists),
         unmatched=_dedupe([u.strip() for u in extracted.unmatched_requests] + rejected),
         search_description=extracted.search_description.strip()[:MAX_SEARCH_DESCRIPTION_CHARS],
         raw_llm_output=extracted.model_dump(),
