@@ -16,7 +16,7 @@ def make_extracted(**overrides) -> ExtractedPreferences:
     data = dict(
         genres=["pop"], moods=["happy"], target_energy=0.7, target_valence=0.6,
         target_acousticness=0.3, num_songs=10, reference_artists=[], exclude_artists=[],
-        unmatched_requests=[],
+        unmatched_requests=[], search_description="upbeat electronic pop",
     )
     data.update(overrides)
     return ExtractedPreferences(**data)

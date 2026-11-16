@@ -9,7 +9,8 @@ Flow:
   2. Gemini (LLM)            - reads the request and returns JSON matching ExtractedPreferences
   3. validate_preferences()  - code-side guardrail: drops anything not in the catalog vocabulary
                                (recorded in `unmatched`), clamps numbers, caps song count
-  4. ParsedRequest           - UserProfile + extra constraints for the agent
+  4. ParsedRequest           - UserProfile + extra constraints for the agent, plus a
+                               `search_description` used as the RAG search query (src/rag/)
 
 The LLM only *interprets* the request. It never picks songs; the scorer does.
 """
@@ -34,6 +35,7 @@ DEFAULT_THINKING_LEVEL = "low"
 REQUEST_TIMEOUT_MS = 60_000  # SDK default is no timeout, which looks like a hang
 DEFAULT_NUM_SONGS = 10
 MAX_NUM_SONGS = 20
+MAX_SEARCH_DESCRIPTION_CHARS = 500  # the embedding model truncates long input anyway
 
 # Must match derive_mood() in scripts/build_catalog.py, so the LLM's idea of a
 # mood lines up with how moods were assigned in the catalog.
@@ -66,6 +68,13 @@ class ExtractedPreferences(BaseModel):
     unmatched_requests: List[str] = Field(
         description="Genres, moods, or other wishes the user mentioned that are NOT in the allowed lists."
     )
+    search_description: str = Field(
+        description="One or two sentences describing the SOUND the user wants, written like a music "
+        "catalog entry: genre style, mood, energy, instrumentation, production. Translate artist, album "
+        "and activity references into sonic terms (e.g. \"like Frank Ocean's Blonde\" -> \"atmospheric "
+        "alternative r&b, dreamy and mellow, sparse production, layered soulful vocals\"; \"for studying\" "
+        "-> \"calm, mostly instrumental, non-distracting background music\"). Used for semantic search."
+    )
 
 
 @dataclass
@@ -76,6 +85,7 @@ class ParsedRequest:
     reference_artists: List[str] = field(default_factory=list)
     exclude_artists: List[str] = field(default_factory=list)
     unmatched: List[str] = field(default_factory=list)  # things we can't satisfy from the catalog
+    search_description: str = ""  # sonic rewrite of the request, used as the RAG search query
     raw_llm_output: dict = field(default_factory=dict)  # kept for transparency / debugging
 
 
@@ -151,6 +161,7 @@ def validate_preferences(extracted: ExtractedPreferences, vocab: dict) -> Parsed
         reference_artists=_dedupe([a.strip() for a in extracted.reference_artists]),
         exclude_artists=_dedupe([a.strip() for a in extracted.exclude_artists]),
         unmatched=_dedupe([u.strip() for u in extracted.unmatched_requests] + rejected),
+        search_description=extracted.search_description.strip()[:MAX_SEARCH_DESCRIPTION_CHARS],
         raw_llm_output=extracted.model_dump(),
     )
 

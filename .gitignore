@@ -16,3 +16,6 @@ venv/
 
 # Secrets
 .env
+
+# ChromaDB vector index (rebuilt automatically from data/)
+.chroma/

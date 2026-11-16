@@ -13,16 +13,25 @@ import logging
 import sys
 import time
 
-from recommender import load_songs, recommend_songs, load_catalog, Recommender
+from recommender import load_songs, recommend_songs, load_catalog
 
 
-def run_natural_language(query: str) -> None:
-    """python src/main.py "chill music for studying, 5 songs" """
+def run_natural_language(query: str, use_rag: bool = True) -> None:
+    """python src/main.py "chill music for studying, 5 songs"
+    python src/main.py --no-rag "..."   (original recommender: score the whole catalog)
+    """
     from dotenv import load_dotenv
     from preferences import extract_preferences, ExtractionError
+    from rag.pipeline import recommend
 
     load_dotenv()  # reads GEMINI_API_KEY from .env
     catalog = load_catalog("data/catalog.csv")
+
+    retriever = None
+    if use_rag:
+        from rag.retrieval import build_retriever
+        print("Loading music knowledge base (first run builds the index)...", flush=True)
+        retriever = build_retriever(catalog)
 
     print("Asking Gemini to interpret your request...", flush=True)
     start = time.time()
@@ -48,13 +57,23 @@ def run_natural_language(query: str) -> None:
     if request.unmatched:
         print(f"Not in catalog:  {request.unmatched}")
 
-    excluded = {a.lower() for a in request.exclude_artists}
-    allowed = [s for s in catalog if not any(x in s.artist.lower() for x in excluded)]
-    results = Recommender(allowed).recommend_with_scores(p, k=request.num_songs)
+    playlist = recommend(request, catalog, retriever=retriever, query=query)
 
-    print(f"\n--- Top {len(results)} songs ---")
-    for i, (song, score, reasons) in enumerate(results, 1):
-        print(f"{i:2}. {song.title} - {song.artist}  [{song.genre}, {song.mood}]  score {score:.2f}")
+    if playlist.mode == "rag":
+        print("\n--- Retrieval (RAG) ---")
+        print(f"Search text:     {playlist.search_text}")
+        print(f"Candidates:      {len(playlist.retrieved)} of {len(catalog)} songs retrieved, then ranked by the scorer")
+        print("Closest matches:")
+        for r in playlist.retrieved[:5]:
+            print(f"  {r.similarity:.2f}  {r.song.title} - {r.song.artist}  [{r.song.genre}, {r.song.mood}]")
+    else:
+        print("\n(RAG disabled: scoring the whole catalog)")
+
+    sims = playlist.similarity_by_id
+    print(f"\n--- Top {len(playlist.results)} songs ---")
+    for i, (song, score, reasons) in enumerate(playlist.results, 1):
+        sim = f"  match {sims[song.id]:.2f}" if song.id in sims else ""
+        print(f"{i:2}. {song.title} - {song.artist}  [{song.genre}, {song.mood}]  score {score:.2f}{sim}")
 
 
 def main() -> None:
@@ -106,7 +125,10 @@ def main() -> None:
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.WARNING, format="%(levelname)s %(name)s: %(message)s")
-    if len(sys.argv) > 1:
-        run_natural_language(" ".join(sys.argv[1:]))
+    args = sys.argv[1:]
+    use_rag = "--no-rag" not in args
+    args = [a for a in args if a != "--no-rag"]
+    if args:
+        run_natural_language(" ".join(args), use_rag=use_rag)
     else:
         main()  # original demo with hardcoded profiles

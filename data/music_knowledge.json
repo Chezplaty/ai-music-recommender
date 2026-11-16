@@ -1,0 +1,130 @@
+{
+  "_about": "Hand-written, genre-level descriptions used to enrich song documents for retrieval (src/rag/ingestion.py). These describe each GENRE in general, not individual songs, so they never add made-up facts about a specific track. Editing this file triggers an automatic re-index.",
+  "genres": {
+    "pop": {
+      "style": "catchy, polished mainstream songs built around big hooks and choruses",
+      "characteristics": "radio-friendly production, strong vocal melodies, verse-chorus structure, synths and programmed drums",
+      "related": ["indie pop", "synthpop", "k-pop", "edm"]
+    },
+    "indie pop": {
+      "style": "melodic pop with an independent, slightly quirky or dreamy feel",
+      "characteristics": "jangly guitars or warm synths, airy vocals, bedroom-pop and lo-fi textures, wistful or nostalgic tone",
+      "related": ["pop", "synthpop", "alt rock", "folk"]
+    },
+    "hip hop": {
+      "style": "rap vocals over beat-driven production",
+      "characteristics": "rhythmic spoken-word delivery, heavy bass, 808s and trap hi-hats, sampled loops, confident or gritty attitude",
+      "related": ["r&b", "latin", "funk"]
+    },
+    "r&b": {
+      "style": "smooth contemporary rhythm and blues",
+      "characteristics": "soulful, sensual vocals, groove-based rhythms, lush harmonies, slick modern production, late-night atmosphere",
+      "related": ["soul", "hip hop", "pop", "funk"]
+    },
+    "soul": {
+      "style": "neo soul: warm, emotional vocal music rooted in gospel and classic soul",
+      "characteristics": "expressive vocals, live instrumentation, jazzy chords, laid-back grooves, intimate and heartfelt",
+      "related": ["r&b", "funk", "jazz", "blues"]
+    },
+    "rock": {
+      "style": "classic and album-oriented guitar rock",
+      "characteristics": "electric guitars, driving drums, bass, riffs and solos, anthemic choruses, live band energy",
+      "related": ["alt rock", "punk", "metal", "blues"]
+    },
+    "edm": {
+      "style": "big, high-energy electronic dance music made for festivals",
+      "characteristics": "synth leads, build-ups and drops, four-on-the-floor kicks, heavy sidechain, euphoric and loud",
+      "related": ["house", "techno", "pop"]
+    },
+    "latin": {
+      "style": "latin pop, reggaeton and tropical music",
+      "characteristics": "Spanish-language vocals, dembow and syncopated rhythms, percussion, danceable and sunny, party energy",
+      "related": ["pop", "reggae", "hip hop"]
+    },
+    "alt rock": {
+      "style": "alternative rock outside the mainstream rock tradition",
+      "characteristics": "distorted or chiming guitars, introspective lyrics, moody or angsty tone, grunge and post-punk influences",
+      "related": ["rock", "punk", "indie pop"]
+    },
+    "punk": {
+      "style": "fast, loud, rebellious guitar music",
+      "characteristics": "short songs, power chords, shouted vocals, raw production, fast tempos, aggressive and energetic",
+      "related": ["alt rock", "rock", "metal"]
+    },
+    "metal": {
+      "style": "heavy, aggressive guitar music",
+      "characteristics": "heavily distorted guitars, fast double-kick drums, screamed or powerful vocals, dark and intense, loud",
+      "related": ["rock", "punk", "alt rock"]
+    },
+    "synthpop": {
+      "style": "pop built around synthesizers, often with an 80s feel",
+      "characteristics": "analog synths, drum machines, retro and nostalgic tone, neon and night-drive atmosphere, danceable",
+      "related": ["pop", "indie pop", "house"]
+    },
+    "k-pop": {
+      "style": "Korean pop music",
+      "characteristics": "highly polished production, genre-blending songs, group vocals and rap verses, catchy hooks, energetic",
+      "related": ["pop", "hip hop", "edm"]
+    },
+    "funk": {
+      "style": "rhythm-first groove music",
+      "characteristics": "syncopated bass lines, tight drums, rhythmic guitar, horns, very danceable, playful and upbeat",
+      "related": ["soul", "r&b", "house"]
+    },
+    "jazz": {
+      "style": "improvisational music built on swing and complex harmony",
+      "characteristics": "saxophone, trumpet, piano, upright bass and brushed drums, often instrumental, smooth and sophisticated, good background music",
+      "related": ["soul", "blues", "classical"]
+    },
+    "blues": {
+      "style": "guitar and vocal music rooted in the blues scale",
+      "characteristics": "twelve-bar progressions, bending guitar lines, raw emotional vocals, slow to mid tempo, soulful and gritty",
+      "related": ["rock", "soul", "jazz", "country"]
+    },
+    "country": {
+      "style": "American country music",
+      "characteristics": "twangy vocals, acoustic and steel guitars, fiddle, storytelling lyrics, small-town and heartfelt themes",
+      "related": ["folk", "acoustic", "blues"]
+    },
+    "folk": {
+      "style": "acoustic, song-centered folk and indie folk",
+      "characteristics": "acoustic guitar, banjo, soft vocals and harmonies, organic and earthy, introspective storytelling",
+      "related": ["acoustic", "country", "indie pop"]
+    },
+    "acoustic": {
+      "style": "stripped-back songs played on acoustic instruments",
+      "characteristics": "acoustic guitar or piano, intimate vocals, unplugged and warm, gentle and calm, coffee-shop feel",
+      "related": ["folk", "indie pop", "country"]
+    },
+    "classical": {
+      "style": "orchestral, piano and chamber music in the classical tradition",
+      "characteristics": "instrumental, no vocals, strings and piano, dynamic and expressive, calm focus music, good for studying",
+      "related": ["ambient", "jazz"]
+    },
+    "ambient": {
+      "style": "atmospheric, texture-focused background music",
+      "characteristics": "drones, pads and soundscapes, mostly instrumental, slow and spacious, meditative, non-distracting, good for focus and sleep",
+      "related": ["chill", "classical", "techno"]
+    },
+    "chill": {
+      "style": "laid-back chillout, lo-fi and downtempo",
+      "characteristics": "mellow beats, soft synths, relaxed grooves, dreamy and hazy, low-key background music for studying or unwinding",
+      "related": ["ambient", "indie pop", "r&b", "house"]
+    },
+    "house": {
+      "style": "groove-driven electronic dance music",
+      "characteristics": "steady four-on-the-floor beat around 120-128 BPM, soulful vocal samples, warm bass, danceable club music",
+      "related": ["techno", "edm", "funk"]
+    },
+    "techno": {
+      "style": "repetitive, hypnotic electronic club music",
+      "characteristics": "driving kick drums, dark minimal synths, mostly instrumental, mechanical and futuristic, long builds",
+      "related": ["house", "edm", "ambient"]
+    },
+    "reggae": {
+      "style": "Jamaican reggae and its offshoots",
+      "characteristics": "offbeat guitar skank, deep bass, relaxed one-drop rhythm, sunny and laid-back, positive vibes",
+      "related": ["latin", "soul", "funk"]
+    }
+  }
+}
