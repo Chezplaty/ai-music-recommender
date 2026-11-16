@@ -64,6 +64,10 @@ def run(catalog, retriever, reviewer, **request_overrides):
                      request=make_request(**request_overrides), reviewer=reviewer)
 
 
+def ids(playlist):
+    return [item.song.id for item in playlist]
+
+
 @pytest.fixture
 def vocab(catalog):
     return build_vocabulary(catalog)
@@ -101,7 +105,7 @@ def test_ai_rejection_drives_the_next_attempt(catalog, retriever):
     assert second.profile.genres == ["punk"] and second.profile.target_energy == 0.8
     assert result.request.profile.genres == ["metal"]  # the user's original request is kept as-is
     assert any("revision 1 (AI)" in t["detail"] for t in result.trace)
-    assert result.playlist == result.attempts[1].playlist
+    assert ids(result.playlist) == ids(result.attempts[1].playlist)
 
 
 def test_songs_removed_by_the_ai_never_come_back(catalog, retriever):
@@ -148,7 +152,7 @@ def test_ai_approved_attempt_is_preferred_over_higher_scoring_rejected_one(catal
     """Attempt 1 (rejected) vs attempt 2 (approved): the approved one is returned."""
     reviewer = ScriptedReviewer(response(next_genres=["punk"], next_search_text="punk"), response(approved=True))
     result = run(catalog, retriever, reviewer)
-    assert result.playlist == result.attempts[1].playlist
+    assert ids(result.playlist) == ids(result.attempts[1].playlist)
 
 
 # --- Gemini unavailable -> fall back to rules ---------------------------------------

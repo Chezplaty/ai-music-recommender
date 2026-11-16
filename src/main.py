@@ -11,6 +11,7 @@ You will implement the functions in recommender.py:
 
 import logging
 import sys
+import textwrap
 import time
 
 from recommender import load_songs, recommend_songs, load_catalog
@@ -51,12 +52,16 @@ def print_agent_result(result) -> None:
         print(f"   {entry['detail']}")
 
     print(f"\n--- Playlist ({len(result.playlist)} songs) ---")
+    if result.summary:
+        print(textwrap.fill(result.summary, width=100) + "\n")
     for i, item in enumerate(result.playlist, 1):
         s = item.song
         match = f", match {item.similarity:.2f}" if item.similarity is not None else ""
-        print(f"{i:2}. {s.title} - {s.artist}  [{s.genre}, {s.mood}]")
-        print(f"      score {item.score:.2f} ({item.confidence} confidence{match}): "
-              + "; ".join(item.reasons[:2]))
+        print(f"{i:2}. {s.title} - {s.artist}  [{s.genre}, {s.mood}]  "
+              f"score {item.score:.2f} ({item.confidence} confidence{match})")
+        if item.explanation:
+            print(textwrap.fill(item.explanation, width=100, initial_indent="      ", subsequent_indent="      "))
+            print(f"      [evidence: {', '.join(item.cited)}]")
     if result.notes:
         print("\n--- Notes ---")
         for note in result.notes:

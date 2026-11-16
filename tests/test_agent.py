@@ -137,7 +137,7 @@ def test_returns_best_attempt_not_last(catalog, retriever):
 
 def test_trace_follows_the_workflow(catalog, retriever):
     steps = [t["step"] for t in run(make_request(), catalog, retriever).trace]
-    order = ["analyze", "plan", "retrieve", "generate", "evaluate", "finalize"]
+    order = ["analyze", "plan", "retrieve", "generate", "evaluate", "finalize", "explain"]
     assert [s for s in dict.fromkeys(steps)] == order  # first occurrences in this order
 
 

@@ -1,7 +1,7 @@
 """
 The music recommendation agent, as a LangGraph state machine.
 
-    analyze -> plan -> retrieve -> generate -> evaluate --accepted--> finalize -> END
+    analyze -> plan -> retrieve -> generate -> evaluate --accepted--> finalize -> explain -> END
                           ^                       |
                           +------- revise <-------+  rejected (at most MAX_REVISIONS times)
 
@@ -16,6 +16,7 @@ The music recommendation agent, as a LangGraph state machine.
                - rules failed -> "revise":   AI diagnoses and replans
   revise    apply the AI's plan (rule-based fallback only if Gemini is unreachable)
   finalize  keep the best attempt, run guardrails, list limitations
+  explain   explain each song from code-computed evidence (no LLM)    (agent/explainer.py)
 
 An attempt is accepted only when the rules pass AND the AI approves (if Gemini is
 unreachable, passing the rules is enough). Every node appends to `trace`, so the
@@ -31,8 +32,11 @@ from preferences import ParsedRequest, build_vocabulary, extract_preferences
 from recommender import Song
 from guardrails.validation import duplicate_songs, invalid_songs
 from rag.retrieval import MusicRetriever, is_excluded
+from dataclasses import replace
+
 from agent.critic import GeminiReviewer, ReviewContext, run_review
 from agent.evaluator import evaluate, revise as rule_revise
+from agent.explainer import explain_playlist
 from agent.generator import build_playlist
 from agent.planner import make_plan
 from agent.state import AgentResult, AgentState, Attempt, Revision
@@ -67,9 +71,9 @@ def build_agent(catalog: List[Song], retriever: MusicRetriever, extractor: Optio
                 reviewer: Optional[Callable] = None):
     """Compile the graph.
 
-    extractor(query, catalog) -> ParsedRequest   (default: Gemini)
-    reviewer(ReviewContext)   -> ReviewResponse  (None = no AI critic, rules only)
-    Both are injectable so tests run without Gemini.
+    extractor(query, catalog)  -> ParsedRequest        (default: Gemini)
+    reviewer(ReviewContext)    -> ReviewResponse       (None = no AI critic, rules only)
+    All are injectable so tests run without Gemini.
     """
     extractor = extractor or extract_preferences
     vocab = build_vocabulary(catalog)
@@ -195,7 +199,15 @@ def build_agent(catalog: List[Song], retriever: MusicRetriever, extractor: Optio
         result = AgentResult(request=state["request"], playlist=playlist, evaluation=best.evaluation,
                              attempts=attempts, notes=notes,
                              trace=state["trace"] + [{"step": "finalize", "detail": detail}])
-        return {"result": result, "trace": [{"step": "finalize", "detail": detail}]}
+        return {"result": result, "final_strategy": best.strategy,
+                "trace": [{"step": "finalize", "detail": detail}]}
+
+    def explain(state: AgentState) -> dict:
+        result = state["result"]
+        playlist, summary = explain_playlist(state["request"], state["final_strategy"], result.playlist)
+        trace = [{"step": "explain", "detail": f"explained {len(playlist)} songs from their evidence"}]
+        result = replace(result, playlist=playlist, summary=summary, trace=result.trace + trace)
+        return {"result": result, "trace": trace}
 
     graph = StateGraph(AgentState)
     graph.add_node("analyze", analyze)
@@ -205,6 +217,7 @@ def build_agent(catalog: List[Song], retriever: MusicRetriever, extractor: Optio
     graph.add_node("evaluate", evaluate_node)
     graph.add_node("revise", revise_node)
     graph.add_node("finalize", finalize)
+    graph.add_node("explain", explain)
 
     graph.add_edge(START, "analyze")
     graph.add_edge("analyze", "plan")
@@ -213,7 +226,8 @@ def build_agent(catalog: List[Song], retriever: MusicRetriever, extractor: Optio
     graph.add_edge("generate", "evaluate")
     graph.add_conditional_edges("evaluate", route_after_evaluate, {"revise": "revise", "finalize": "finalize"})
     graph.add_conditional_edges("revise", route_after_revise, {"retrieve": "retrieve", "finalize": "finalize"})
-    graph.add_edge("finalize", END)
+    graph.add_edge("finalize", "explain")
+    graph.add_edge("explain", END)
     return graph.compile()
 
 
@@ -222,7 +236,7 @@ def run_agent(query: str, catalog: List[Song], retriever: MusicRetriever,
               reviewer: Optional[Callable] = None, ai_review: bool = True) -> AgentResult:
     """Run the whole workflow and return the final result (with its full trace).
 
-    ai_review=True with no `reviewer` uses the Gemini critic; ai_review=False runs rules only.
+    ai_review=True with no `reviewer` uses the Gemini critic; False runs rule checks only.
     """
     if ai_review and reviewer is None:
         reviewer = GeminiReviewer()

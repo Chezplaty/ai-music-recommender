@@ -23,12 +23,23 @@ class Strategy:
 
 
 @dataclass
+class Fact:
+    """One piece of evidence about a song, computed from real data (catalog, scorer, retrieval)."""
+    id: str                    # e.g. "energy", "genre", "search_match"
+    text: str                  # e.g. "its energy of 0.48 is very close to your target of 0.45"
+    supports: Optional[bool]   # True = a reason to pick it, False = a trade-off, None = neutral
+
+
+@dataclass
 class PlaylistItem:
     song: Song
     score: float                 # from the original weighted scorer
     reasons: List[str]           # the scorer's per-feature explanation
     similarity: Optional[float]  # retrieval match with the search text (None if not retrieved)
     confidence: str              # "high" / "medium" / "low", relative to the best possible score
+    evidence: List[Fact] = field(default_factory=list)  # filled in by the explain step
+    explanation: str = ""                                # why this song, in plain words
+    cited: List[str] = field(default_factory=list)       # Fact ids the explanation is based on
 
 
 @dataclass
@@ -95,6 +106,7 @@ class AgentResult:
     attempts: List[Attempt]  # every attempt, including revisions
     notes: List[str]         # limitations to tell the user about
     trace: List[Dict[str, str]]
+    summary: str = ""        # one-paragraph description of the whole playlist
 
 
 class AgentState(TypedDict, total=False):
@@ -115,3 +127,4 @@ class AgentState(TypedDict, total=False):
     attempts: Annotated[List[Attempt], operator.add]
     trace: Annotated[List[Dict[str, Any]], operator.add]
     result: AgentResult
+    final_strategy: Strategy  # strategy of the returned attempt (for explanations)
