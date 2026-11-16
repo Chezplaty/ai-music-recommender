@@ -22,6 +22,7 @@ MIN_GENRE_SHARE = 0.6     # at least 60% of songs in a requested genre...
 MAX_WEAK_SHARE = 0.3      # ...at most 30% "weak" picks...
 WEAK_SCORE_RATIO = 0.70   # (weak = below 70% of the best possible score)
 MAX_ENERGY_GAP = 0.15     # ...and average energy within 0.15 of the target
+MIN_CANDIDATES = 10
 MAX_CANDIDATES = 150
 
 
@@ -32,7 +33,7 @@ def available_songs(catalog: List[Song], strategy: Strategy) -> List[Song]:
 def evaluate(playlist: List[PlaylistItem], request: ParsedRequest, strategy: Strategy,
              catalog: List[Song]) -> Evaluation:
     songs = [item.song for item in playlist]
-    profile = request.profile
+    profile = strategy.profile
     pool = available_songs(catalog, strategy)
     target = min(request.num_songs, len(pool))
     checks = []
@@ -79,8 +80,9 @@ def evaluate(playlist: List[PlaylistItem], request: ParsedRequest, strategy: Str
 
 
 def revise(strategy: Strategy, evaluation: Evaluation, request: ParsedRequest) -> Tuple[Optional[Strategy], str]:
-    """Pick a fix for the failed checks. Returns (new_strategy, reason), or (None, reason) if nothing would help.
+    """RULE-BASED FALLBACK, used only when the AI critic (agent/critic.py) can't be reached.
 
+    Pick a fix for the failed checks. Returns (new_strategy, reason), or (None, reason) if nothing would help.
     Ladder of fixes, cheapest first:
       1. Genre-targeted retrieval: the semantic search drifted away from the requested genres.
       2. Widen the candidate pool: good matches exist but fell outside the top-N retrieved.
@@ -90,10 +92,11 @@ def revise(strategy: Strategy, evaluation: Evaluation, request: ParsedRequest) -
     if not quality_issue:
         return None, "only guardrail checks failed; the final step removes offending songs"
 
-    if request.profile.genres and not strategy.genre_targeted and failed & {"genre_fit", "score_quality"}:
+    genres = strategy.profile.genres
+    if genres and not strategy.genre_targeted and failed & {"genre_fit", "score_quality"}:
         return (replace(strategy, genre_targeted=True),
                 f"{', '.join(sorted(quality_issue))} failed: add a search inside each requested genre "
-                f"({', '.join(request.profile.genres)})")
+                f"({', '.join(genres)})")
 
     if strategy.n_candidates < MAX_CANDIDATES:
         n = min(strategy.n_candidates * 2, MAX_CANDIDATES)

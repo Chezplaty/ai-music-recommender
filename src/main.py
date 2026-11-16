@@ -16,7 +16,7 @@ import time
 from recommender import load_songs, recommend_songs, load_catalog
 
 
-MODES = ("agent", "rag", "baseline")
+MODES = ("agent", "agent-rules", "rag", "baseline")
 
 
 def print_understood(query, request) -> None:
@@ -65,6 +65,7 @@ def print_agent_result(result) -> None:
 
 def run_natural_language(query: str, mode: str = "agent") -> None:
     """python src/main.py "chill music for studying, 5 songs"         (agent, default)
+    python src/main.py --mode agent-rules "..." (agent with rule checks only, no Gemini critic)
     python src/main.py --mode rag "..."        (retrieve, then rank once; no critic)
     python src/main.py --mode baseline "..."   (original recommender: score the whole catalog)
     """
@@ -75,17 +76,20 @@ def run_natural_language(query: str, mode: str = "agent") -> None:
     catalog = load_catalog("data/catalog.csv")
 
     retriever = None
-    if mode in ("agent", "rag"):
+    if mode in ("agent", "agent-rules", "rag"):
         from rag.retrieval import build_retriever
         print("Loading music knowledge base (first run builds the index)...", flush=True)
         retriever = build_retriever(catalog)
 
-    print("Asking Gemini to interpret your request...", flush=True)
+    if mode == "agent":
+        print("Running the agent (Gemini interprets, then reviews each attempt; this can take a few minutes)...", flush=True)
+    else:
+        print("Asking Gemini to interpret your request...", flush=True)
     start = time.time()
     try:
-        if mode == "agent":
+        if mode.startswith("agent"):
             from agent.workflow import run_agent
-            result = run_agent(query, catalog, retriever)
+            result = run_agent(query, catalog, retriever, ai_review=(mode == "agent"))
             request = result.request
         else:
             request = extract_preferences(query, catalog)
@@ -94,7 +98,7 @@ def run_natural_language(query: str, mode: str = "agent") -> None:
     print(f"(took {time.time() - start:.1f}s)")
 
     print_understood(query, request)
-    if mode == "agent":
+    if mode.startswith("agent"):
         print_agent_result(result)
         return
 

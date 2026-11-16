@@ -1,8 +1,9 @@
-"""Agent reliability tests (plan section 6B).
+"""Agent reliability tests (plan section 6B), with the AI critic switched off.
 
 No Gemini calls: preferences are passed in directly (or via a fake extractor), and
 retrieval uses the fake embedder from conftest.py. So these test the agent's own
-behavior: planning, the critic, the revision loop, and the final guardrails.
+behavior: planning, the guardrail checks, the rule-based fallback revision loop,
+and the final guardrails.
 """
 
 from dataclasses import replace
@@ -31,7 +32,9 @@ def make_request(**overrides) -> ParsedRequest:
 
 
 def run(request, catalog, retriever):
-    return run_agent("test", catalog, retriever, request=request)
+    # Rules only: these tests pin down the guardrails and the fallback reviser.
+    # The AI critic has its own tests in test_critic.py.
+    return run_agent("test", catalog, retriever, request=request, ai_review=False)
 
 
 def songs_of(result):
@@ -145,7 +148,7 @@ def test_extractor_is_called_with_the_query(catalog, retriever):
         calls.append(query)
         return make_request()
 
-    result = run_agent("loud metal please", catalog, retriever, extractor=fake_extractor)
+    result = run_agent("loud metal please", catalog, retriever, extractor=fake_extractor, ai_review=False)
     assert calls == ["loud metal please"] and result.playlist
 
 

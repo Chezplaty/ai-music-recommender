@@ -1,19 +1,25 @@
 """
 The music recommendation agent, as a LangGraph state machine.
 
-    analyze -> plan -> retrieve -> generate -> evaluate --pass--> finalize -> END
+    analyze -> plan -> retrieve -> generate -> evaluate --accepted--> finalize -> END
                           ^                       |
-                          +------- revise <--fail-+   (at most MAX_REVISIONS times)
+                          +------- revise <-------+  rejected (at most MAX_REVISIONS times)
 
-  analyze   Gemini turns the request into a ParsedRequest   (the only LLM call)
-  plan      choose search text, pool size, artist rules     (agent/planner.py)
-  retrieve  ChromaDB semantic search -> candidate songs     (rag/retrieval.py)
-  generate  original scorer ranks; playlist rules applied   (agent/generator.py)
-  evaluate  critic checks the playlist against the request  (agent/evaluator.py)
-  revise    pick a fix for what failed, then retrieve again
+  analyze   Gemini turns the request into a ParsedRequest            (preferences.py)
+  plan      initial search text, pool size, artist rules             (agent/planner.py)
+  retrieve  ChromaDB semantic search -> candidate songs              (rag/retrieval.py)
+  generate  original scorer ranks; playlist rules applied            (agent/generator.py)
+  evaluate  1. guardrail rules check the playlist                    (agent/evaluator.py)
+            2. Gemini critic reviews it and, if it rejects, writes   (agent/critic.py)
+               the next plan
+               - rules passed -> "critique": AI approves or rejects
+               - rules failed -> "revise":   AI diagnoses and replans
+  revise    apply the AI's plan (rule-based fallback only if Gemini is unreachable)
   finalize  keep the best attempt, run guardrails, list limitations
 
-Every node appends to `trace`, so the UI can show exactly what the agent did.
+An attempt is accepted only when the rules pass AND the AI approves (if Gemini is
+unreachable, passing the rules is enough). Every node appends to `trace`, so the
+UI can show exactly what the agent did and why.
 """
 
 import logging
@@ -21,14 +27,15 @@ from typing import Callable, List, Optional
 
 from langgraph.graph import END, START, StateGraph
 
-from preferences import ParsedRequest, extract_preferences
+from preferences import ParsedRequest, build_vocabulary, extract_preferences
 from recommender import Song
 from guardrails.validation import duplicate_songs, invalid_songs
 from rag.retrieval import MusicRetriever, is_excluded
-from agent.evaluator import evaluate, revise
+from agent.critic import GeminiReviewer, ReviewContext, run_review
+from agent.evaluator import evaluate, revise as rule_revise
 from agent.generator import build_playlist
 from agent.planner import make_plan
-from agent.state import AgentResult, AgentState, Attempt
+from agent.state import AgentResult, AgentState, Attempt, Revision
 
 logger = logging.getLogger(__name__)
 
@@ -37,14 +44,35 @@ PER_GENRE_RESULTS = 12  # = songs per genre in the catalog, so a genre search ca
 
 
 def _attempt_rank(attempt: Attempt):
-    """Best attempt = fewest failed checks, then highest average score."""
+    """Best attempt: accepted (rules + AI) first, then rules passed, fewest failed checks, highest avg score."""
     scores = [item.score for item in attempt.playlist]
-    return (-len(attempt.evaluation.failed), sum(scores) / len(scores) if scores else 0.0)
+    return (attempt.accepted, attempt.evaluation.passed, -len(attempt.evaluation.failed),
+            sum(scores) / len(scores) if scores else 0.0)
 
 
-def build_agent(catalog: List[Song], retriever: MusicRetriever, extractor: Optional[Callable] = None):
-    """Compile the graph. `extractor(query, catalog) -> ParsedRequest` is injectable for tests."""
+def _review_trace(review) -> List[dict]:
+    if review.error:
+        return [{"step": "ai_review", "detail": f"AI critic unavailable ({review.error[:120]}); "
+                                                "falling back to rule checks"}]
+    if review.mode == "critique":
+        verdict = "APPROVED" if review.approved else "REJECTED"
+    else:
+        verdict = "DIAGNOSED rule failures"
+    trace = [{"step": "ai_review", "detail": f"{verdict}: {review.reasoning}"}]
+    trace += [{"step": "ai_review", "detail": f"issue: {issue}"} for issue in review.issues]
+    return trace
+
+
+def build_agent(catalog: List[Song], retriever: MusicRetriever, extractor: Optional[Callable] = None,
+                reviewer: Optional[Callable] = None):
+    """Compile the graph.
+
+    extractor(query, catalog) -> ParsedRequest   (default: Gemini)
+    reviewer(ReviewContext)   -> ReviewResponse  (None = no AI critic, rules only)
+    Both are injectable so tests run without Gemini.
+    """
     extractor = extractor or extract_preferences
+    vocab = build_vocabulary(catalog)
 
     def analyze(state: AgentState) -> dict:
         if state.get("request") is not None:  # already parsed (tests, or a UI that edits the profile)
@@ -62,13 +90,13 @@ def build_agent(catalog: List[Song], retriever: MusicRetriever, extractor: Optio
                 "trace": [{"step": "plan", "detail": step} for step in strategy.steps]}
 
     def retrieve(state: AgentState) -> dict:
-        strategy, request = state["strategy"], state["request"]
+        strategy = state["strategy"]
         results = retriever.search(strategy.search_text, n_results=strategy.n_candidates,
                                    exclude_artists=strategy.exclude_artists)
         detail = f"{len(results)} candidates from semantic search"
-        if strategy.genre_targeted:
+        if strategy.genre_targeted and strategy.profile.genres:
             extra = 0
-            for genre in request.profile.genres:
+            for genre in strategy.profile.genres:
                 genre_results = retriever.search(strategy.search_text, n_results=PER_GENRE_RESULTS,
                                                  exclude_artists=strategy.exclude_artists, genres=[genre])
                 extra += len(genre_results)
@@ -91,24 +119,49 @@ def build_agent(catalog: List[Song], retriever: MusicRetriever, extractor: Optio
 
     def evaluate_node(state: AgentState) -> dict:
         evaluation = evaluate(state["playlist"], state["request"], state["strategy"], catalog)
-        attempt = Attempt(number=len(state.get("attempts", [])) + 1, strategy=state["strategy"],
-                          playlist=state["playlist"], evaluation=evaluation)
         trace = [{"step": "evaluate", "detail": f"{'PASS' if c.passed else 'FAIL'} {c.name}: {c.detail}"}
                  for c in evaluation.checks]
+
+        revisions_left = MAX_REVISIONS - state["revisions"]
+        review = None
+        # Critique when the rules pass; when they fail, ask the AI to replan only if a retry is still possible.
+        if reviewer is not None and (evaluation.passed or revisions_left > 0):
+            ctx = ReviewContext(mode="critique" if evaluation.passed else "revise", query=state.get("query", ""),
+                                request=state["request"], strategy=state["strategy"], playlist=state["playlist"],
+                                evaluation=evaluation, attempt_number=len(state.get("attempts", [])) + 1,
+                                revisions_left=revisions_left, vocab=vocab)
+            review = run_review(reviewer, ctx)
+            trace += _review_trace(review)
+
+        attempt = Attempt(number=len(state.get("attempts", [])) + 1, strategy=state["strategy"],
+                          playlist=state["playlist"], evaluation=evaluation, review=review)
         return {"evaluation": evaluation, "attempts": [attempt], "trace": trace}
 
     def route_after_evaluate(state: AgentState) -> str:
-        if state["evaluation"].passed or state["revisions"] >= MAX_REVISIONS:
+        if state["attempts"][-1].accepted or state["revisions"] >= MAX_REVISIONS:
             return "finalize"
         return "revise"
 
     def revise_node(state: AgentState) -> dict:
-        new_strategy, reason = revise(state["strategy"], state["evaluation"], state["request"])
-        if new_strategy is None:
-            # Nothing would help; stop (finalize reports the remaining issues).
-            return {"gave_up": True, "trace": [{"step": "revise", "detail": f"stop: {reason}"}]}
-        return {"strategy": new_strategy, "revisions": state["revisions"] + 1,
-                "trace": [{"step": "revise", "detail": f"revision {state['revisions'] + 1}: {reason}"}]}
+        attempt = state["attempts"][-1]
+        review = attempt.review
+        n = state["revisions"] + 1
+
+        if review is not None and review.revision is not None:
+            revision = review.revision  # the AI's plan
+            if not revision.changes:
+                return {"gave_up": True,
+                        "trace": [{"step": "revise", "detail": "stop: the AI critic rejected but proposed no changes"}]}
+        else:
+            # Gemini unreachable or disabled: rule-based fallback.
+            new_strategy, reason = rule_revise(state["strategy"], attempt.evaluation, state["request"])
+            if new_strategy is None:
+                return {"gave_up": True, "trace": [{"step": "revise", "detail": f"stop: {reason}"}]}
+            revision = Revision(strategy=new_strategy, changes=[reason], source="rules")
+
+        who = "AI" if revision.source == "ai" else "rule fallback"
+        trace = [{"step": "revise", "detail": f"revision {n} ({who}): {change}"} for change in revision.changes]
+        return {"strategy": revision.strategy, "revisions": n, "trace": trace}
 
     def route_after_revise(state: AgentState) -> str:
         return "finalize" if state.get("gave_up") else "retrieve"
@@ -116,7 +169,6 @@ def build_agent(catalog: List[Song], retriever: MusicRetriever, extractor: Optio
     def finalize(state: AgentState) -> dict:
         attempts = state["attempts"]
         best = max(attempts, key=_attempt_rank)
-        request = state["request"]
 
         # Final guardrail: strip anything that should never reach the user.
         bad_ids = {s.id for s in invalid_songs([i.song for i in best.playlist], catalog)}
@@ -130,10 +182,17 @@ def build_agent(catalog: List[Song], retriever: MusicRetriever, extractor: Optio
             notes.append(f"Guardrail removed {removed} song(s) that failed validation.")
         for check in best.evaluation.failed:
             notes.append(f"Still short after {len(attempts) - 1} revision(s): {check.name} ({check.detail}).")
+        if best.review and not best.review.approved and not best.review.error and best.review.issues:
+            notes.append("The AI critic still had concerns: " + " | ".join(best.review.issues))
+        if any(a.review and a.review.error for a in attempts):
+            notes.append("The AI critic was unavailable for at least one attempt; rule checks were used instead.")
 
-        detail = (f"returning attempt {best.number} of {len(attempts)} "
-                  f"({len(best.evaluation.checks) - len(best.evaluation.failed)}/{len(best.evaluation.checks)} checks passed)")
-        result = AgentResult(request=request, playlist=playlist, evaluation=best.evaluation,
+        verdict = ("AI-approved" if best.review and best.review.approved
+                   else "rules passed" if best.evaluation.passed else "best effort")
+        detail = (f"returning attempt {best.number} of {len(attempts)} ({verdict}; "
+                  f"{len(best.evaluation.checks) - len(best.evaluation.failed)}/{len(best.evaluation.checks)} "
+                  f"rule checks passed)")
+        result = AgentResult(request=state["request"], playlist=playlist, evaluation=best.evaluation,
                              attempts=attempts, notes=notes,
                              trace=state["trace"] + [{"step": "finalize", "detail": detail}])
         return {"result": result, "trace": [{"step": "finalize", "detail": detail}]}
@@ -159,9 +218,15 @@ def build_agent(catalog: List[Song], retriever: MusicRetriever, extractor: Optio
 
 
 def run_agent(query: str, catalog: List[Song], retriever: MusicRetriever,
-              extractor: Optional[Callable] = None, request: Optional[ParsedRequest] = None) -> AgentResult:
-    """Run the whole workflow and return the final result (with its full trace)."""
-    agent = build_agent(catalog, retriever, extractor)
+              extractor: Optional[Callable] = None, request: Optional[ParsedRequest] = None,
+              reviewer: Optional[Callable] = None, ai_review: bool = True) -> AgentResult:
+    """Run the whole workflow and return the final result (with its full trace).
+
+    ai_review=True with no `reviewer` uses the Gemini critic; ai_review=False runs rules only.
+    """
+    if ai_review and reviewer is None:
+        reviewer = GeminiReviewer()
+    agent = build_agent(catalog, retriever, extractor, reviewer if ai_review else None)
     state = agent.invoke({"query": query, "request": request, "attempts": [], "trace": []})
     result = state["result"]
     for entry in result.trace:

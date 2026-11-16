@@ -5,18 +5,20 @@ from dataclasses import dataclass, field
 from typing import Annotated, Any, Dict, List, Optional, TypedDict
 
 from preferences import ParsedRequest
-from recommender import Song
+from recommender import Song, UserProfile
 from rag.retrieval import RetrievedSong
 
 
 @dataclass
 class Strategy:
-    """How the agent will build the playlist. The planner creates it; the reviser changes it."""
+    """How the agent will build the playlist. The planner creates it; the AI critic revises it."""
     search_text: str
     n_candidates: int
     exclude_artists: List[str]
     max_per_artist: int
-    genre_targeted: bool = False  # also run one filtered search per requested genre
+    profile: UserProfile                # working preferences; the AI critic may adjust them
+    genre_targeted: bool = False        # also run one filtered search per requested genre
+    banned_song_ids: List[int] = field(default_factory=list)  # songs the AI critic removed
     steps: List[str] = field(default_factory=list)  # human-readable plan, for the user
 
 
@@ -51,11 +53,38 @@ class Evaluation:
 
 
 @dataclass
+class Revision:
+    """A change of plan for the next attempt (from the AI critic, or the rule fallback)."""
+    strategy: Strategy
+    changes: List[str]  # human-readable diff, e.g. "energy 0.65 -> 0.55"
+    source: str         # "ai" or "rules"
+
+
+@dataclass
+class AIReview:
+    """The AI critic's verdict on one attempt."""
+    mode: str                    # "critique" (rule checks passed) or "revise" (rule checks failed)
+    approved: bool
+    issues: List[str]
+    reasoning: str
+    revision: Optional[Revision] = None  # set when not approved
+    error: str = ""                      # set when Gemini was unreachable
+
+
+@dataclass
 class Attempt:
     number: int
     strategy: Strategy
     playlist: List[PlaylistItem]
     evaluation: Evaluation
+    review: Optional[AIReview] = None
+
+    @property
+    def accepted(self) -> bool:
+        """Rule checks passed AND the AI critic approved (or couldn't be reached)."""
+        if not self.evaluation.passed:
+            return False
+        return self.review is None or self.review.approved or bool(self.review.error)
 
 
 @dataclass

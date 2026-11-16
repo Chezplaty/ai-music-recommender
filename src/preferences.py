@@ -32,7 +32,9 @@ DEFAULT_MODEL = "gemini-3.8-flash"  # override with the GEMINI_MODEL env var
 # trivial request take ~25s. Override with GEMINI_THINKING (low/medium/high;
 # gemini-3.8-flash rejects "minimal" with a 400 error).
 DEFAULT_THINKING_LEVEL = "low"
-REQUEST_TIMEOUT_MS = 60_000  # SDK default is no timeout, which looks like a hang
+# SDK default is no timeout, which looks like a hang. The SDK also sends this to the
+# server as its deadline: at 60s, slow responses (~55s observed) came back as 504s.
+REQUEST_TIMEOUT_MS = 120_000
 DEFAULT_NUM_SONGS = 10
 MAX_NUM_SONGS = 20
 MAX_SEARCH_DESCRIPTION_CHARS = 500  # the embedding model truncates long input anyway
@@ -94,7 +96,11 @@ class ParsedRequest:
     raw_llm_output: dict = field(default_factory=dict)  # kept for transparency / debugging
 
 
-class ExtractionError(Exception):
+class LLMError(Exception):
+    """A Gemini call failed or returned something unusable."""
+
+
+class ExtractionError(LLMError):
     """Raised when the LLM response can't be turned into valid preferences."""
 
 
@@ -182,45 +188,54 @@ def make_client():
     return genai.Client(http_options=types.HttpOptions(timeout=REQUEST_TIMEOUT_MS))
 
 
+def generate_structured(contents: str, system_prompt: str, schema, client=None, model: Optional[str] = None,
+                        error_cls=LLMError):
+    """One Gemini call that must return JSON matching the pydantic `schema`.
+
+    Shared by the preference extractor and the agent's AI critic. Any failure
+    (network, timeout, overload, unparseable output) is raised as `error_cls`.
+    """
+    from google.genai import types
+
+    client = client or make_client()
+    model = model or os.environ.get("GEMINI_MODEL", DEFAULT_MODEL)
+    thinking_level = os.environ.get("GEMINI_THINKING", DEFAULT_THINKING_LEVEL).upper()
+    try:
+        response = client.models.generate_content(
+            model=model,
+            contents=contents,
+            config=types.GenerateContentConfig(
+                system_instruction=system_prompt,
+                response_mime_type="application/json",
+                response_schema=schema,
+                temperature=0.0,  # same input -> same output, as far as the model allows
+                thinking_config=types.ThinkingConfig(thinking_level=thinking_level),
+            ),
+        )
+    except Exception as e:  # timeouts, auth errors, unknown model, 503 overload...
+        raise error_cls(f"Gemini request failed ({type(e).__name__}): {e}") from e
+
+    parsed = response.parsed
+    if isinstance(parsed, schema):
+        return parsed
+    # SDK couldn't parse it for us; try the raw text before giving up.
+    try:
+        return schema.model_validate(json.loads(response.text or ""))
+    except (json.JSONDecodeError, ValidationError) as e:
+        raise error_cls(f"Could not parse LLM response: {e}") from e
+
+
 def extract_preferences(query: str, catalog: List[Song], client=None, model: Optional[str] = None) -> ParsedRequest:
     """Natural-language request -> validated ParsedRequest.
 
     `client` can be injected (tests pass a fake), otherwise a real Gemini client is created.
     """
-    from google.genai import types
-
     if not query or not query.strip():
         raise ExtractionError("Empty request.")
 
-    client = client or make_client()
-    model = model or os.environ.get("GEMINI_MODEL", DEFAULT_MODEL)
     vocab = build_vocabulary(catalog)
-
-    thinking_level = os.environ.get("GEMINI_THINKING", DEFAULT_THINKING_LEVEL).upper()
-
-    try:
-        response = client.models.generate_content(
-            model=model,
-            contents=query,
-            config=types.GenerateContentConfig(
-                system_instruction=build_system_prompt(vocab),
-                response_mime_type="application/json",
-                response_schema=ExtractedPreferences,
-                temperature=0.0,  # same request -> same profile, as far as the model allows
-                thinking_config=types.ThinkingConfig(thinking_level=thinking_level),
-            ),
-        )
-    except Exception as e:  # timeouts, auth errors, unknown model, network...
-        raise ExtractionError(f"Gemini request failed ({type(e).__name__}): {e}") from e
-
-    extracted = response.parsed
-    if not isinstance(extracted, ExtractedPreferences):
-        # SDK couldn't parse it for us; try the raw text before giving up.
-        try:
-            extracted = ExtractedPreferences.model_validate(json.loads(response.text or ""))
-        except (json.JSONDecodeError, ValidationError) as e:
-            raise ExtractionError(f"Could not parse LLM response: {e}") from e
-
+    extracted = generate_structured(query, build_system_prompt(vocab), ExtractedPreferences,
+                                    client=client, model=model, error_cls=ExtractionError)
     parsed = validate_preferences(extracted, vocab)
     logger.info("Extracted preferences for %r: %s", query, parsed.raw_llm_output)
     return parsed

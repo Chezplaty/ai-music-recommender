@@ -30,12 +30,16 @@ def confidence(score: float, profile: UserProfile) -> str:
 
 def build_playlist(candidates: List[Song], request: ParsedRequest, strategy: Strategy,
                    similarity: Dict[int, float]) -> List[PlaylistItem]:
-    ranked = Recommender(candidates).recommend_with_scores(request.profile, k=len(candidates))
+    profile = strategy.profile  # may differ from request.profile after an AI revision
+    ranked = Recommender(candidates).recommend_with_scores(profile, k=len(candidates))
+    banned = set(strategy.banned_song_ids)
 
     playlist, seen_ids, seen_keys, per_artist = [], set(), set(), Counter()
     for song, score, reasons in ranked:
         if len(playlist) >= request.num_songs:
             break
+        if song.id in banned:
+            continue  # the AI critic removed it from an earlier attempt
         if song.id in seen_ids or song_key(song) in seen_keys:
             continue  # no duplicates, including other versions of the same song
         if is_excluded(song, strategy.exclude_artists):
@@ -47,5 +51,5 @@ def build_playlist(candidates: List[Song], request: ParsedRequest, strategy: Str
         per_artist[primary_artist(song)] += 1
         playlist.append(PlaylistItem(song=song, score=score, reasons=reasons,
                                      similarity=similarity.get(song.id),
-                                     confidence=confidence(score, request.profile)))
+                                     confidence=confidence(score, profile)))
     return playlist

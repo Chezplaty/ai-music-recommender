@@ -40,8 +40,9 @@ def make_plan(request: ParsedRequest, catalog: List[Song], query: str = "") -> T
         "Rank those candidates with the weighted scorer (genre, mood, energy, valence, acousticness)",
         f"Pick the top {request.num_songs}, at most {max_per_artist} per artist"
         + (f", leaving out {', '.join(exclude)}" if exclude else ""),
-        "Check the playlist against the request; revise the search if it falls short",
+        "Check the playlist with guardrail rules, then have the AI critic review it; "
+        "the AI revises the plan if it falls short",
     ]
     strategy = Strategy(search_text=search_text, n_candidates=n, exclude_artists=exclude,
-                        max_per_artist=max_per_artist, steps=steps)
+                        max_per_artist=max_per_artist, profile=request.profile, steps=steps)
     return strategy, notes
